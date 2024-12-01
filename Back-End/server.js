@@ -30,8 +30,6 @@
 //   console.log(`Server is running on http://localhost:${PORT}`);
 // });
 
-
-
 require("dotenv").config(); // Load environment variables
 const express = require("express");
 const connectDB = require("./config/dbConfig"); // Import the database connection
@@ -61,6 +59,10 @@ app.use('/api/products', productRoutes);
 
 // Connect to MongoDB
 connectDB(); // Call the function to establish the connection
+
+const userRoutes = require("./routes/userRoute");
+
+app.use("/api/user", userRoutes);
 
 // Start the server
 app.listen(PORT, () => {
