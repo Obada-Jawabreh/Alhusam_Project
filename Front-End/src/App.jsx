@@ -4,6 +4,7 @@ import Home from './pages/Home'; // الصفحة الرئيسية
 import Products from './pages/Catalog/Catalog'; // صفحة المنتجات
 import SignUp from "./pages/SiginUp/SignUp.jsx";
 import Login from "./pages/Login/Login.jsx";
+import ProviderApplicationForm from "./pages/provider.jsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/provider" element={<ProviderApplicationForm />} />
       </Routes>
     </Router>
 
