@@ -2,27 +2,27 @@ const mongoose = require('mongoose');
 
 // تعريف النموذج مع إضافة التحقق
 const productSchema = new mongoose.Schema({
-  title: { 
-    type: String, 
+  title: {
+    type: String,
     required: [true, 'اسم المنتج مطلوب'],
     trim: true
   },
-  titleAr: { 
-    type: String, 
+  titleAr: {
+    type: String,
     required: [true, 'اسم المنتج بالعربية مطلوب'],
     trim: true
   },
-  seller: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
+  seller: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: [true, 'البائع مطلوب']
   },
-  description: { 
+  description: {
     type: String,
     trim: true,
     required: [true, 'وصف المنتج مطلوب']
   },
-  mainImage: { 
+  mainImage: {
     type: String,
     required: [true, 'الصورة الرئيسية مطلوبة'],
     validate: {
@@ -43,20 +43,20 @@ const productSchema = new mongoose.Schema({
       message: 'رابط الصورة غير صالح'
     }
   }],
-  price: { 
+  price: {
     type: Number,
     required: [true, 'السعر مطلوب'],
     min: [0, 'السعر يجب أن يكون 0 أو أكثر']
   },
-  category: { 
-    type: String, 
+  category: {
+    type: String,
     enum: {
       values: ['ملابس', 'طعام', 'مصنوعات يدوية', 'أكسسوارات', 'أخرى'],
       message: 'الفئة غير صالحة'
     },
     required: [true, 'الفئة مطلوبة']
   },
-  stock: { 
+  stock: {
     type: Number,
     required: [true, 'الكمية المتاحة مطلوبة'],
     min: [0, 'الكمية يجب أن تكون 0 أو أكثر'],

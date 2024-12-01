@@ -7,9 +7,9 @@ exports.createProduct = async (req, res) => {
     // التأكد من أن المستخدم موجود ومصرح له بإضافة المنتج
     const user = await User.findById(req.user._id);
     if (!user) {
-      return res.status(404).json({ 
-        status: 'error', 
-        message: 'المستخدم غير موجود' 
+      return res.status(404).json({
+        status: 'error',
+        message: 'المستخدم غير موجود'
       });
     }
 
