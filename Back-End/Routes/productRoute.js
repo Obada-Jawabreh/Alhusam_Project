@@ -7,7 +7,7 @@
 // router.route('/')
 //   .get(productController.getAllProducts) // الحصول على جميع المنتجات
 //   .post(
-//     authMiddleware.protect, 
+//     authMiddleware.protect,
 //     productController.createProduct // إنشاء منتج جديد (للمستخدمين المصرح لهم)
 //   );
 
@@ -21,7 +21,7 @@ const router = express.Router();
 // router.post("/add",  productController.createProduct);
 
 // الحصول على جميع المنتجات
-router.get("/all", productController.getAllProducts); 
+router.get("/all", productController.getAllProducts);
 
 // // الحصول على منتج محدد
 router.get("/:id", productController.getProductById ); 
