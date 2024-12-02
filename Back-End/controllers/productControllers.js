@@ -1,7 +1,8 @@
 const Product = require('../models/product');
 const User = require('../models/user');
-
-// إنشاء منتج جديد
+ 
+const mongoose = require('mongoose'); // استيراد mongoose
+  // إنشاء منتج جديد
 exports.createProduct = async (req, res) => {
   try {
     // التأكد من أن المستخدم موجود ومصرح له بإضافة المنتج
@@ -113,177 +114,94 @@ exports.createProduct = async (req, res) => {
 //     });
 //   }
 // };
+ 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find(); // الحصول على جميع المنتجات من قاعدة البيانات
-    res.status(200).json(products); // إرسال البيانات كرد
-  } catch (error) {
-    res.status(500).json({ message: error.message }); // إرسال خطأ في حالة حدوث مشكلة
-  }
-};
+    // جلب جميع المنتجات من قاعدة البيانات
+    const products = await Product.find();
 
-
-// الحصول على منتج محدد
-exports.getProduct = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id)
-      .populate('seller', 'name profileImage')
-      .populate('reviews.user', 'name profileImage');
-
-    if (!product || product.isDeleted || !product.isActive) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'المنتج غير موجود'
-      });
-    }
-
-    // زيادة عدد المشاهدات
-    product.views += 1;
-    await product.save();
-
+    // إرسال الاستجابة
     res.status(200).json({
       status: 'success',
+      results: products.length,
       data: {
-        product
-      }
+        products,
+      },
     });
   } catch (error) {
     res.status(500).json({
       status: 'error',
-      message: error.message
+      message: error.message,
     });
   }
 };
 
-// تحديث منتج
-exports.updateProduct = async (req, res) => {
+exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const { id } = req.params;
 
-    // التأكد من وجود المنتج
+    // التحقق من صحة ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'معرّف المنتج غير صالح',
+      });
+    }
+
+    // البحث عن المنتج
+    const product = await Product.findOne({ _id: id });
+
     if (!product) {
       return res.status(404).json({
         status: 'error',
-        message: 'المنتج غير موجود'
+        message: 'المنتج غير موجود أو تم حذفه',
       });
     }
+    
 
-    // التأكد من أن المستخدم هو مالك المنتج
-    if (product.seller.toString() !== req.user._id.toString()) {
-      return res.status(403).json({
-        status: 'error',
-        message: 'غير مصرح لك بتعديل هذا المنتج'
-      });
-    }
-
-    // تحديث المنتج
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
-      { 
-        new: true, 
-        runValidators: true 
-      }
-    );
-
+    // إرسال المنتج
     res.status(200).json({
       status: 'success',
       data: {
-        product: updatedProduct
-      }
+        product,
+      },
     });
   } catch (error) {
-    res.status(400).json({
-      status: 'error',
-      message: error.message
-    });
-  }
-};
-
-// حذف منتج
-exports.deleteProduct = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-
-    // التأكد من وجود المنتج
-    if (!product) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'المنتج غير موجود'
-      });
-    }
-
-    // التأكد من أن المستخدم هو مالك المنتج
-    if (product.seller.toString() !== req.user._id.toString()) {
-      return res.status(403).json({
-        status: 'error',
-        message: 'غير مصرح لك بحذف هذا المنتج'
-      });
-    }
-
-    // حذف المنتج (حذف منطقي)
-    product.isDeleted = true;
-    product.isActive = false;
-    await product.save();
-
-    res.status(204).json({
-      status: 'success',
-      data: null
-    });
-  } catch (error) {
+    console.error('خطأ أثناء جلب المنتج:', error.message);
     res.status(500).json({
       status: 'error',
-      message: error.message
+      message: 'حدث خطأ أثناء جلب المنتج',
+      error: error.message,
     });
   }
 };
+// exports.getProductById = async (req, res) => {
+//   try {
+//     const productId = req.params.id;
 
-// إضافة تقييم للمنتج
-exports.addReview = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
+//     // البحث عن المنتج
+//     const product = await Product.findOne({ _id: mongoose.Types.ObjectId(productId), isDeleted: false }).populate('seller').populate('reviews.user');
 
-    // التأكد من وجود المنتج
-    if (!product) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'المنتج غير موجود'
-      });
-    }
+//     if (!product) {
+//       console.log("لم يتم العثور على المنتج");
+//       return res.status(404).json({
+//         status: 'error',
+//         message: 'المنتج غير موجود أو تم حذفه',
+//       });
+//     }
 
-    // إنشاء التقييم
-    const newReview = {
-      user: req.user._id,
-      rating: req.body.rating,
-      comment: req.body.comment
-    };
-
-    // التأكد من عدم وجود تقييم مسبق للمستخدم
-    const existingReviewIndex = product.reviews.findIndex(
-      review => review.user.toString() === req.user._id.toString()
-    );
-
-    if (existingReviewIndex > -1) {
-      // تحديث التقييم الموجود
-      product.reviews[existingReviewIndex] = newReview;
-    } else {
-      // إضافة تقييم جديد
-      product.reviews.push(newReview);
-    }
-
-    // حفظ المنتج
-    await product.save();
-
-    res.status(201).json({
-      status: 'success',
-      data: {
-        product
-      }
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: 'error',
-      message: error.message
-    });
-  }
-};
+//     res.status(200).json({
+//       status: 'success',
+//       data: {
+//         product,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("خطأ في البحث عن المنتج:", error.message);
+//     res.status(500).json({
+//       status: 'error',
+//       message: 'حدث خطأ أثناء جلب المنتج',
+//       error: error.message,
+//     });
+//   }
+// };
