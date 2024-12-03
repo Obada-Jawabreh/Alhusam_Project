@@ -14,11 +14,17 @@
 const express = require("express");
 const productController = require("../controllers/productControllers");
 const { protect } = require("../middleware/authMiddleware");
-
+const auth = require("./../middleware/authMiddleware");
 const router = express.Router();
-
+const upload = require("../config/multer-config");
+const productUpload = upload.fields([
+  { name: "mainImage", maxCount: 1 },
+  { name: "additionalImages", maxCount: 3 },
+]);
 // إنشاء منتج جديد
-// router.post("/add",  productController.createProduct);
+
+router.post("/add", auth, productUpload, productController.addProduct);
+
 
 // الحصول على جميع المنتجات
 router.get("/all", productController.getAllProducts);
@@ -36,4 +42,3 @@ router.get("/:id", productController.getProductById );
 // router.post("/:id/review", protect, productController.addReview);
 
 module.exports = router;
-

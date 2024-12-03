@@ -9,10 +9,17 @@ const userSchema = new Schema(
     profilePicture: String,
     role: {
       type: String,
-      enum: ["user", "provider","driver"],
+      enum: ["user", "provider", "driver"],
       default: "user",
     },
     bio: String,
+    phoneNumber: { type: String },
+    Picture: { type: String },
+    aboutMe: { type: String },
+    ProviderApplication: {
+      type: Schema.Types.ObjectId,
+      ref: "ProviderApplication",
+    },
     savedBooks: [{ type: Schema.Types.ObjectId, ref: "Book" }],
     publishedBooks: [{ type: Schema.Types.ObjectId, ref: "Book" }],
     googleId: { type: String },
@@ -22,7 +29,9 @@ const userSchema = new Schema(
     otp: String,
     otpExpiry: Date,
   },
+
   { timestamps: true }
 );
-const User = mongoose.models.User || mongoose.model("User", userSchema, "Users");
+const User =
+  mongoose.models.User || mongoose.model("User", userSchema, "Users");
 module.exports = User;

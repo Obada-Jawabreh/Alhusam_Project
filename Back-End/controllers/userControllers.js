@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("./../models/user");
+const ProviderApplication = require("./../models/application");
 require("dotenv").config();
 
 exports.loginUser = async (req, res) => {
@@ -10,7 +11,7 @@ exports.loginUser = async (req, res) => {
     const user = await User.findOne({
       email,
       isDeleted: false,
-    //   isActive: true,
+      //   isActive: true,
     });
     if (!user) {
       return res.status(400).json({
@@ -81,5 +82,36 @@ exports.registerUser = async (req, res) => {
     res
       .status(500)
       .send("Error registering user (First Method): " + error.message);
+  }
+};
+// ---------------------------------------------------------------------
+exports.getUserById = async (req, res) => {
+  const userId = req.user.id;
+  
+  try {
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    const userData = await User.findById(userId)
+      .select(
+        "username email phoneNumber profilePicture aboutMe isApproved createdAt updatedAt"
+      )
+      .populate("ProviderApplication");
+
+    if (!userData) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const user = {
+      ...userData.toObject(),
+      ProviderApplication: userData.ProviderApplication || null,
+    };
+
+    res.status(200).json(user);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching user data: " + error.message });
   }
 };
