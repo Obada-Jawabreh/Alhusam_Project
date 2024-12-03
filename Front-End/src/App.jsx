@@ -5,6 +5,13 @@ import Products from "./pages/Catalog/Catalog"; // صفحة المنتجات
 import SignUp from "./pages/SiginUp/SignUp.jsx";
 import Login from "./pages/Login/Login.jsx";
 import ProviderDashboard from "./pages/providerDashboard/Dashboard.jsx";
+
+ 
+import ProductDetailPage from "./pages/Detailes/Detailes.jsx";
+ 
+import ProviderApplicationForm from "./pages/provider.jsx";
+ 
+
 function App() {
   return (
     <Router>
@@ -15,9 +22,14 @@ function App() {
         {/* مسار صفحة المنتجات */}
         <Route path="/products" element={<Products />} />
 
+
+
+        <Route path="/providerDashboard" element={<ProviderDashboard />} />
+
+        <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/provider" element={<ProviderDashboard />} />
+        <Route path="/provider" element={<ProviderApplicationForm />} />
       </Routes>
     </Router>
   );

@@ -22,13 +22,15 @@ const productUpload = upload.fields([
   { name: "additionalImages", maxCount: 3 },
 ]);
 // إنشاء منتج جديد
+
 router.post("/add", auth, productUpload, productController.addProduct);
+
 
 // الحصول على جميع المنتجات
 router.get("/all", productController.getAllProducts);
 
 // // الحصول على منتج محدد
-// router.get("/:id", productController.getProduct);
+router.get("/:id", productController.getProductById ); 
 
 // // تحديث منتج
 // router.patch("/:id", protect, productController.updateProduct);
