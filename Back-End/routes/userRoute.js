@@ -1,14 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("./../controllers/userControllers");
+
 const auth = require("../middleware/authMiddleware");
 const ProviderApplication = require('../models/providerApplication');
  const multer = require('multer');
 const path = require('path');
+const auth = require('./../middleware/authMiddleware')
 
 
 router.post("/register/user", userController.registerUser);
 router.post("/login/user", userController.loginUser);
+router.get("/get", auth, userController.getUserById);
+
 
 // Check cookies route
 router.post("/logout", (req, res) => {
@@ -81,3 +85,4 @@ console.log("this is value of userId i wish this is not null ",userId);
 
 
 module.exports = router;
+ 
