@@ -87,7 +87,6 @@ exports.registerUser = async (req, res) => {
 // ---------------------------------------------------------------------
 exports.getUserById = async (req, res) => {
   const userId = req.user.id;
-  console.log(userId,"sss");
   
   try {
     if (!userId) {

@@ -21,7 +21,7 @@ function App() {
 
         {/* مسار صفحة المنتجات */}
         <Route path="/products" element={<Products />} />
-
+ 
 
 
         <Route path="/providerDashboard" element={<ProviderDashboard />} />
