@@ -1,17 +1,17 @@
-import { 
-  HeroSection, 
-  CategoriesSection, 
-  FeaturedProductsSection, 
-  CommunitySection, 
+import {
+  HeroSection,
+  CategoriesSection,
+  FeaturedProductsSection,
+  CommunitySection,
   NewsletterSection,
   TestimonialsSection,
-  AboutUsSection
-} from '../pages/Home/about';
-import NavigationBar from '../components/Layout/Navbar';
+  AboutUsSection,
+} from "../pages/Home/about";
+import NavigationBar from "../components/Layout/Navbar";
 const HomePage = () => {
   return (
     <div className="font-cairo">
-         <NavigationBar />
+      <NavigationBar />
       <HeroSection />
       <CategoriesSection />
       <AboutUsSection />

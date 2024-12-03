@@ -1,37 +1,44 @@
-const Product = require('../models/product');
-const User = require('../models/user');
+const Product = require("../models/product");
+const User = require("../models/user");
+const dotenv = require("dotenv");
 
-// إنشاء منتج جديد
-exports.createProduct = async (req, res) => {
+exports.addProduct = async (req, res) => {
   try {
-    // التأكد من أن المستخدم موجود ومصرح له بإضافة المنتج
-    const user = await User.findById(req.user._id);
-    if (!user) {
-      return res.status(404).json({ 
-        status: 'error', 
-        message: 'المستخدم غير موجود' 
-      });
-    }
+    const { titleAr, description, price, category, details } = req.body;
 
-    // إنشاء المنتج
+    const mainImage = req.files["mainImage"]
+      ? req.files["mainImage"][0].filename
+      : null;
+    const additionalImages = req.files["additionalImages"]
+      ? req.files["additionalImages"].map((file) => file.filename)
+      : [];
+    const imageUrl = `http://localhost:${process.env.PORT}/uploads/${mainImage}`;
+
+    // إنشاء المنتج الجديد
     const newProduct = new Product({
-      ...req.body,
-      seller: req.user._id
+      titleAr,
+      description,
+      price: parseFloat(price),
+      category,
+      details,
+      mainImage: mainImage ? imageUrl : null,
+      additionalImages: additionalImages.map(
+        (img) => `http://localhost:${process.env.PORT}/uploads/${img}`
+      ),
+      seller: req.user.id, // افتراض وجود معرف المستخدم في الطلب
     });
 
-    // حفظ المنتج
-    await newProduct.save();
+    const savedProduct = await newProduct.save();
 
     res.status(201).json({
-      status: 'success',
-      data: {
-        product: newProduct
-      }
+      message: "تمت إضافة المنتج بنجاح",
+      product: savedProduct,
     });
   } catch (error) {
-    res.status(400).json({
-      status: 'error',
-      message: error.message
+    console.error("خطأ في إضافة المنتج:", error);
+    res.status(500).json({
+      message: "حدث خطأ أثناء إضافة المنتج",
+      error: error.message,
     });
   }
 };
@@ -40,23 +47,23 @@ exports.createProduct = async (req, res) => {
 // exports.getAllProducts = async (req, res) => {
 //   try {
 //     // استخراج معايير البحث
-//     const { 
-//       category, 
-//       minPrice, 
-//       maxPrice, 
-//       isHandmade, 
-//       sort 
+//     const {
+//       category,
+//       minPrice,
+//       maxPrice,
+//       isHandmade,
+//       sort
 //     } = req.query;
 
 //     // بناء الفلتر
-//     const filter = { 
-//       isActive: true, 
-//       isDeleted: false 
+//     const filter = {
+//       isActive: true,
+//       isDeleted: false
 //     };
 
 //     if (category) filter.category = category;
 //     if (isHandmade) filter.isHandmade = isHandmade === 'true';
-    
+
 //     // فلتر السعر
 //     if (minPrice || maxPrice) {
 //       filter.price = {};
@@ -122,18 +129,17 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-
 // الحصول على منتج محدد
 exports.getProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id)
-      .populate('seller', 'name profileImage')
-      .populate('reviews.user', 'name profileImage');
+      .populate("seller", "name profileImage")
+      .populate("reviews.user", "name profileImage");
 
     if (!product || product.isDeleted || !product.isActive) {
       return res.status(404).json({
-        status: 'error',
-        message: 'المنتج غير موجود'
+        status: "error",
+        message: "المنتج غير موجود",
       });
     }
 
@@ -142,15 +148,15 @@ exports.getProduct = async (req, res) => {
     await product.save();
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
-        product
-      }
+        product,
+      },
     });
   } catch (error) {
     res.status(500).json({
-      status: 'error',
-      message: error.message
+      status: "error",
+      message: error.message,
     });
   }
 };
@@ -163,39 +169,39 @@ exports.updateProduct = async (req, res) => {
     // التأكد من وجود المنتج
     if (!product) {
       return res.status(404).json({
-        status: 'error',
-        message: 'المنتج غير موجود'
+        status: "error",
+        message: "المنتج غير موجود",
       });
     }
 
     // التأكد من أن المستخدم هو مالك المنتج
-    if (product.seller.toString() !== req.user._id.toString()) {
+    if (product.sellerId.toString() !== req.user.id.toString()) {
       return res.status(403).json({
-        status: 'error',
-        message: 'غير مصرح لك بتعديل هذا المنتج'
+        status: "error",
+        message: "غير مصرح لك بتعديل هذا المنتج",
       });
     }
 
     // تحديث المنتج
     const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
-      { 
-        new: true, 
-        runValidators: true 
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
       }
     );
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
-        product: updatedProduct
-      }
+        product: updatedProduct,
+      },
     });
   } catch (error) {
     res.status(400).json({
-      status: 'error',
-      message: error.message
+      status: "error",
+      message: error.message,
     });
   }
 };
@@ -208,16 +214,16 @@ exports.deleteProduct = async (req, res) => {
     // التأكد من وجود المنتج
     if (!product) {
       return res.status(404).json({
-        status: 'error',
-        message: 'المنتج غير موجود'
+        status: "error",
+        message: "المنتج غير موجود",
       });
     }
 
     // التأكد من أن المستخدم هو مالك المنتج
-    if (product.seller.toString() !== req.user._id.toString()) {
+    if (product.sellerId.toString() !== req.user.id.toString()) {
       return res.status(403).json({
-        status: 'error',
-        message: 'غير مصرح لك بحذف هذا المنتج'
+        status: "error",
+        message: "غير مصرح لك بحذف هذا المنتج",
       });
     }
 
@@ -227,13 +233,13 @@ exports.deleteProduct = async (req, res) => {
     await product.save();
 
     res.status(204).json({
-      status: 'success',
-      data: null
+      status: "success",
+      data: null,
     });
   } catch (error) {
     res.status(500).json({
-      status: 'error',
-      message: error.message
+      status: "error",
+      message: error.message,
     });
   }
 };
@@ -246,21 +252,21 @@ exports.addReview = async (req, res) => {
     // التأكد من وجود المنتج
     if (!product) {
       return res.status(404).json({
-        status: 'error',
-        message: 'المنتج غير موجود'
+        status: "error",
+        message: "المنتج غير موجود",
       });
     }
 
     // إنشاء التقييم
     const newReview = {
-      user: req.user._id,
+      user: req.user.id,
       rating: req.body.rating,
-      comment: req.body.comment
+      comment: req.body.comment,
     };
 
     // التأكد من عدم وجود تقييم مسبق للمستخدم
     const existingReviewIndex = product.reviews.findIndex(
-      review => review.user.toString() === req.user._id.toString()
+      (review) => review.user.toString() === req.user.id.toString()
     );
 
     if (existingReviewIndex > -1) {
@@ -275,15 +281,15 @@ exports.addReview = async (req, res) => {
     await product.save();
 
     res.status(201).json({
-      status: 'success',
+      status: "success",
       data: {
-        product
-      }
+        product,
+      },
     });
   } catch (error) {
     res.status(400).json({
-      status: 'error',
-      message: error.message
+      status: "error",
+      message: error.message,
     });
   }
 };

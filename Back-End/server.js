@@ -50,12 +50,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //product
 
-const productRoutes = require('./Routes/productRoute'); // تأكد من صحة المسار
+const productRoutes = require("./Routes/productRoute"); // تأكد من صحة المسار
 
-
-
-
-app.use('/api/products', productRoutes);
+app.use("/api/products", productRoutes);
 
 // Connect to MongoDB
 connectDB(); // Call the function to establish the connection
