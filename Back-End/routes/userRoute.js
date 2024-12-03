@@ -6,6 +6,7 @@ const auth = require("../middleware/authMiddleware");
 const ProviderApplication = require('../models/providerApplication');
  const multer = require('multer');
 const path = require('path');
+const { getUserProfile, updateUserProfile } = require("../controllers/userprofile");
 
 
 router.post("/register/user", userController.registerUser);
@@ -45,6 +46,10 @@ const upload = multer({
 });
 
 
+router.get("/userprofile", auth, getUserProfile);
+
+// Update user profile
+router.put("/userprofile", auth, updateUserProfile);
 
 router.post('/providerApplication',auth,async (req, res) => {
   const userId = req.user.id; // Assuming middleware populates req.user
