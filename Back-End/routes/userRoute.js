@@ -6,7 +6,6 @@ const auth = require("../middleware/authMiddleware");
 const ProviderApplication = require('../models/providerApplication');
  const multer = require('multer');
 const path = require('path');
-const auth = require('./../middleware/authMiddleware')
 
 
 router.post("/register/user", userController.registerUser);
