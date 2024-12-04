@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const useFetchData = (type , crud) => {
+const useFetchData = (type, crud) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -22,7 +23,7 @@ const useFetchData = (type , crud) => {
     };
 
     fetchData();
-  }, [type , crud]);
+  }, [type, crud]);
 
   return { data, loading, error };
 };

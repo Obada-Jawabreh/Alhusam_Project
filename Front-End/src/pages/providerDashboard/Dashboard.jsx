@@ -79,5 +79,4 @@ const TherapistDashboard = () => {
     </div>
   );
 };
-
 export default TherapistDashboard;

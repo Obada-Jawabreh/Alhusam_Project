@@ -3,7 +3,8 @@ const bcrypt = require("bcryptjs");
 const User = require("./../models/user");
 const ProviderApplication = require("./../models/application");
 require("dotenv").config();
-
+const path = require("path");
+const fs = require("fs");
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -112,4 +113,118 @@ exports.getUserById = async (req, res) => {
       .status(500)
       .json({ message: "Error fetching user data: " + error.message });
   }
+
+// --------------------------------------
+// exports.updateImageUserData = async (req, res) => {
+//   try {
+//     const userId = req.user.id;
+//     const user = await User.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     // حذف الصورة القديمة إن وجدت
+//     if (user.profilePicture) {
+//       const oldImagePath = path.join(__dirname, "../", user.profilePicture);
+//       if (fs.existsSync(oldImagePath)) {
+//         fs.unlinkSync(oldImagePath);
+//       }
+//     }
+
+//     const fileExtension = path.extname(req.file.originalname);
+//     const newFileName = `profilePicture-${Date.now()}${fileExtension}`;
+//     const newFilePath = path.join(__dirname, "../uploads", newFileName);
+
+//     fs.renameSync(req.file.path, newFilePath);
+
+//     const fullPath = `http://localhost:${process.env.PORT}/uploads/${newFileName}`;
+//     user.Picture = fullPath;
+
+//     await user.save();
+
+//     res.status(200).json({
+//       message: "Profile image updated successfully",
+//       userId,
+//       newImagePath: fullPath,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error updating profile image", error });
+//   }
+// };
+exports.updateImageUserData = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    let oldFileName = null;
+    if (user.Picture) {
+      try {
+        oldFileName = path.basename(new URL(user.Picture).pathname);
+        const oldImagePath = path.join(__dirname, "../uploads", oldFileName);
+
+        if (fs.existsSync(oldImagePath)) {
+          try {
+            fs.unlinkSync(oldImagePath);
+            console.log(`Old image ${oldFileName} deleted successfully`);
+          } catch (deleteError) {
+            console.error("Error deleting old image:", deleteError);
+          }
+        }
+      } catch (urlError) {
+        console.error("Error processing old image URL:", urlError);
+      }
+    }
+
+    const allowedExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+    const fileExtension = path.extname(req.file.originalname).toLowerCase();
+    if (!allowedExtensions.includes(fileExtension)) {
+      return res.status(400).json({ message: "Invalid file type" });
+    }
+
+    const newFileName = `Picture-${Date.now()}${fileExtension}`;
+    const newFilePath = path.join(__dirname, "../uploads", newFileName);
+
+    try {
+      fs.renameSync(req.file.path, newFilePath);
+    } catch (renameError) {
+      console.error("Error moving the file:", renameError);
+      return res
+        .status(500)
+        .json({ message: "Error moving the file", error: renameError });
+    }
+
+    const fullPath = `http://localhost:${process.env.PORT}/uploads/${newFileName}`;
+    user.Picture = fullPath;
+
+    try {
+      await user.save();
+    } catch (saveError) {
+      console.error("Error saving user data:", saveError);
+      return res
+        .status(500)
+        .json({ message: "Error saving user data", error: saveError });
+    }
+
+    res.status(200).json({
+      message: "Profile image updated successfully",
+      userId,
+      newImagePath: fullPath,
+    });
+  } catch (error) {
+    console.error("Error in updateImageUserData:", error);
+    res.status(500).json({
+      message: "Error updating profile image",
+      error: error.message,
+      stack: error.stack,
+    });
+  }
+};
 };
