@@ -303,42 +303,37 @@
 
 // export default CatalogPage;
 ////////////////////////////////////////////////////
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios"; // تأكد من تثبيت axios
-import {
-  Heart,
-  ShoppingCart,
-  Star,
-  Flower,
-  PaletteIcon,
-  ScissorsIcon,
-  EyeIcon,
-} from "lucide-react";
 
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios'; // تأكد من تثبيت axios
+import { Heart, ShoppingCart, Star, Flower, PaletteIcon, ScissorsIcon, EyeIcon } from 'lucide-react';
+import { Home, Shirt, Coffee, Scissors, Headphones } from 'lucide-react';
+import NavigationBar from '../../components/Layout/Navbar';
 // مكون بطاقة المنتج
 const ProductCard = ({ product }) => {
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all hover:scale-105 group">
       <div className="relative">
-        <img
-          src={product.mainImage || "/api/placeholder/300/400"}
-          alt={product.titleAr}
+
+        <img 
+          src={product.mainImage || "/api/placeholder/300/400"} 
+          alt={product.titleAr} 
           className="w-full h-72 object-cover transition-transform group-hover:scale-110"
         />
-        <div className="absolute top-4 left-4 bg-[#9C27B0]/80 text-white px-3 py-1 rounded-full flex items-center">
+        {/* <div className="absolute top-4 left-4 bg-[#9C27B0]/80 text-white px-3 py-1 rounded-full flex items-center">
           <Star className="w-4 h-4 ml-2" />
           {product.rating || 0}
-        </div>
+        </div> */}
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold mb-2 text-[#4A4A4A]">
-          {product.name}
+          {product.titleAr}
         </h3>
         <p className="text-[#757575] mb-4">{product.description}</p>
         <div className="flex justify-between items-center">
           <span className="text-lg font-bold text-[#9C27B0]">
-            {product.price} ر.س
+            {product.price} د.أ
           </span>
           <Link
             to={`/product/${product._id}`}
@@ -359,24 +354,14 @@ const CatalogPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const categories = [
-    {
-      name: "الكل",
-      icon: null,
-    },
-    {
-      name: "التطريز",
-      icon: <Flower className="w-6 h-6 ml-2" />,
-    },
-    {
-      name: "الفنون اليدوية",
-      icon: <PaletteIcon className="w-6 h-6 ml-2" />,
-    },
-    {
-      name: "الخياطة",
-      icon: <ScissorsIcon className="w-6 h-6 ml-2" />,
-    },
-  ];
+  
+const categories = [
+  { name: 'الكل', icon: <Home className="w-6 h-6 ml-2" /> },
+  { name: 'ملابس', icon: <Shirt className="w-6 h-6 ml-2" /> },
+  { name: 'طعام', icon: <Coffee className="w-6 h-6 ml-2" /> },
+  { name: 'مصنوعات يدوية', icon: <Scissors className="w-6 h-6 ml-2" /> },
+  { name: 'اكسسوارات', icon: <Flower className="w-6 h-6 ml-2" />  }
+];
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -422,9 +407,10 @@ const CatalogPage = () => {
       className="min-h-screen bg-white py-20"
       style={{ fontFamily: "Cairo, Arial, sans-serif" }}
     >
+      <NavigationBar />
       <div className="container mx-auto px-6">
         <header className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-[#6A1B9A] mb-4">
+          <h1 className="text-5xl font-bold text-[#6A1B9A] mb-4 mt-[4rem]">
             بازار المبدعات
           </h1>
           <p className="text-[#4A4A4A] text-xl">

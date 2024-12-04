@@ -42,7 +42,12 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const contactRoutes = require("./Routes/contactRoute");
+const testimonialRoutes = require("./Routes/testimonialRoute");
+const requestRoutes = require("./Routes/requestRoute");
+const review =require("./Routes/ReviewRoutes")
 
+app.use("/api/requests", requestRoutes);
 app.use(bodyParser.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
@@ -60,6 +65,9 @@ connectDB(); // Call the function to establish the connection
 const userRoutes = require("./routes/userRoute");
 
 app.use("/api/user", userRoutes);
+app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/review",review)
 
 // Start the server
 app.listen(PORT, () => {

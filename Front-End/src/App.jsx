@@ -4,13 +4,19 @@ import Home from "./pages/Home"; // الصفحة الرئيسية
 import Products from "./pages/Catalog/Catalog"; // صفحة المنتجات
 import SignUp from "./pages/SiginUp/SignUp.jsx";
 import Login from "./pages/Login/Login.jsx";
+ 
 import ProviderDashboard from "./pages/providerDashboard/Dashboard.jsx";
 
  
 import ProductDetailPage from "./pages/Detailes/Detailes.jsx";
- 
+
 import ProviderApplicationForm from "./pages/provider.jsx";
- 
+import UserProfile from "./pages/userProfile.jsx";
+import ContactUs from "./pages/Contact/ContactUs";
+
+import DriverApplication from "./pages/DriverApplication";
+// import TestimonialManagement from "./pages/Testimonials/TestimonialManagement";
+
 
 function App() {
   return (
@@ -18,6 +24,9 @@ function App() {
       <Routes>
         {/* مسار الصفحة الرئيسية */}
         <Route path="/" element={<Home />} />
+ 
+        <Route path="/userprofile" element={<UserProfile />} />
+ 
 
         {/* مسار صفحة المنتجات */}
         <Route path="/products" element={<Products />} />
@@ -30,6 +39,12 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/provider" element={<ProviderApplicationForm />} />
+        
+        <Route path="/contact" element={<ContactUs />} />
+        {/* <Route path="/testimonials" element={<TestimonialManagement />} /> */}
+
+        <Route path="/driver-application" element={<DriverApplication />} />
+
       </Routes>
     </Router>
   );

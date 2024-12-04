@@ -198,71 +198,8 @@ exports.deleteProduct = async (req, res) => {
 //       sort
 //     } = req.query;
 
-//     // بناء الفلتر
-//     const filter = {
-//       isActive: true,
-//       isDeleted: false
-//     };
 
-//     if (category) filter.category = category;
-//     if (isHandmade) filter.isHandmade = isHandmade === 'true';
 
-//     // فلتر السعر
-//     if (minPrice || maxPrice) {
-//       filter.price = {};
-//       if (minPrice) filter.price.$gte = parseFloat(minPrice);
-//       if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
-//     }
-
-//     // الترتيب
-//     const sortOptions = {};
-//     switch (sort) {
-//       case 'priceAsc':
-//         sortOptions.price = 1;
-//         break;
-//       case 'priceDesc':
-//         sortOptions.price = -1;
-//         break;
-//       case 'newest':
-//         sortOptions.createdAt = -1;
-//         break;
-//       case 'mostPopular':
-//         sortOptions.purchaseCount = -1;
-//         break;
-//       default:
-//         sortOptions.createdAt = -1;
-//     }
-
-//     // البحث والترتيب والترقيم
-//     const page = parseInt(req.query.page) || 1;
-//     const limit = parseInt(req.query.limit) || 10;
-//     const skip = (page - 1) * limit;
-
-//     const products = await Product.find(filter)
-//       .sort(sortOptions)
-//       .skip(skip)
-//       .limit(limit)
-//       .populate('seller', 'name profileImage'); // تضمين معلومات البائع
-
-//     // حساب العدد الإجمالي
-//     const totalProducts = await Product.countDocuments(filter);
-
-//     res.status(200).json({
-//       status: 'success',
-//       results: products.length,
-//       totalPages: Math.ceil(totalProducts / limit),
-//       currentPage: page,
-//       data: {
-//         products
-//       }
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       status: 'error',
-//       message: error.message
-//     });
-//   }
-// };
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -393,3 +330,4 @@ exports.getProductForProvider = async (req, res) => {
 //     });
 //   }
 // };
+

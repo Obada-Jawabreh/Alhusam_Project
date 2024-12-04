@@ -26,7 +26,7 @@ const productUpload = upload.fields([
 router.post("/add", auth, productUpload, productController.addProduct);
 
 // الحصول على جميع المنتجات
-router.get("/all", productController.getAllProducts);
+router.get("/all", productController.getAllProducts);   
 
 // // الحصول على منتج محدد
 router.get("/get", auth, productController.getProductForProvider);
