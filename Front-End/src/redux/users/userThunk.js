@@ -68,6 +68,8 @@ export const updateProfilePicture = createAsyncThunk(
           },
         }
       );
+      console.log(response);
+      
       console.log("Profile picture update response:", response.data);
       return response.data;
     } catch (error) {

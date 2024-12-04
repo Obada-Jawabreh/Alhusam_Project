@@ -39,17 +39,17 @@
 //   return (
 //     <div className="bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all hover:scale-105 group">
 //       <div className="relative">
-//         <img 
-//           src={product.image} 
-//           alt={product.name} 
+//         <img
+//           src={product.image}
+//           alt={product.name}
 //           className="w-full h-72 object-cover transition-transform group-hover:scale-110"
 //         />
-//         <button 
-//           onClick={() => setIsLiked(!isLiked)} 
+//         <button
+//           onClick={() => setIsLiked(!isLiked)}
 //           className="absolute top-4 right-4 bg-[#9C27B0]/80 text-white p-2 rounded-full"
 //         >
-//           <Heart 
-//             color={isLiked ? 'white' : 'white'} 
+//           <Heart
+//             color={isLiked ? 'white' : 'white'}
 //             fill={isLiked ? '#9C27B0' : 'none'}
 //           />
 //         </button>
@@ -81,33 +81,33 @@
 // // الصفحة الرئيسية للكتالوج
 // const CatalogPage = () => {
 //   const [selectedCategory, setSelectedCategory] = useState('الكل');
-  
+
 //   const categories = [
-//     { 
-//       name: 'الكل', 
-//       icon: null 
+//     {
+//       name: 'الكل',
+//       icon: null
 //     },
-//     { 
-//       name: 'التطريز', 
-//       icon: <Flower className="w-6 h-6 ml-2" /> 
+//     {
+//       name: 'التطريز',
+//       icon: <Flower className="w-6 h-6 ml-2" />
 //     },
-//     { 
-//       name: 'الفنون اليدوية', 
-//       icon: <PaletteIcon className="w-6 h-6 ml-2" /> 
+//     {
+//       name: 'الفنون اليدوية',
+//       icon: <PaletteIcon className="w-6 h-6 ml-2" />
 //     },
-//     { 
-//       name: 'الخياطة', 
-//       icon: <ScissorsIcon className="w-6 h-6 ml-2" /> 
+//     {
+//       name: 'الخياطة',
+//       icon: <ScissorsIcon className="w-6 h-6 ml-2" />
 //     }
 //   ];
 
-//   const filteredProducts = selectedCategory === 'الكل' 
-//     ? productData 
+//   const filteredProducts = selectedCategory === 'الكل'
+//     ? productData
 //     : productData.filter(product => product.category === selectedCategory);
 
 //   return (
-//     <div 
-//       className="min-h-screen bg-gradient-to-br from-[#F3E5F5] via-[#E1F5FE] to-[#FFF3E0] py-20" 
+//     <div
+//       className="min-h-screen bg-gradient-to-br from-[#F3E5F5] via-[#E1F5FE] to-[#FFF3E0] py-20"
 //       style={{ fontFamily: 'Cairo, Arial, sans-serif' }}
 //     >
 //       <div className="container mx-auto px-6">
@@ -127,8 +127,8 @@
 //               key={category.name}
 //               onClick={() => setSelectedCategory(category.name)}
 //               className={`flex items-center px-6 py-3 rounded-full transition-all duration-300 ${
-//                 selectedCategory === category.name 
-//                   ? 'bg-[#9C27B0] text-white shadow-lg' 
+//                 selectedCategory === category.name
+//                   ? 'bg-[#9C27B0] text-white shadow-lg'
 //                   : 'bg-white text-[#9C27B0] hover:bg-[#9C27B0] hover:text-white'
 //               }`}
 //             >
@@ -194,9 +194,9 @@
 //   return (
 //     <div className="bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all hover:scale-105 group">
 //       <div className="relative">
-//         <img 
-//           src={product.image} 
-//           alt={product.name} 
+//         <img
+//           src={product.image}
+//           alt={product.name}
 //           className="w-full h-72 object-cover transition-transform group-hover:scale-110"
 //         />
 //         <div className="absolute top-4 left-4 bg-[#9C27B0]/80 text-white px-3 py-1 rounded-full flex items-center">
@@ -215,8 +215,8 @@
 //           <span className="text-lg font-bold text-[#9C27B0]">
 //             {product.price} ر.س
 //           </span>
-//           <Link 
-//   to={`/product/${product.id}`} 
+//           <Link
+//   to={`/product/${product.id}`}
 //   className="bg-[#9C27B0] text-white p-2 rounded-full hover:bg-[#7B1FA2] transition-colors"
 // >
 //   <EyeIcon size={20} />
@@ -230,33 +230,33 @@
 // // الصفحة الرئيسية للكتالوج
 // const CatalogPage = () => {
 //   const [selectedCategory, setSelectedCategory] = useState('الكل');
-  
+
 //   const categories = [
-//     { 
-//       name: 'الكل', 
-//       icon: null 
+//     {
+//       name: 'الكل',
+//       icon: null
 //     },
-//     { 
-//       name: 'التطريز', 
-//       icon: <Flower className="w-6 h-6 ml-2" /> 
+//     {
+//       name: 'التطريز',
+//       icon: <Flower className="w-6 h-6 ml-2" />
 //     },
-//     { 
-//       name: 'الفنون اليدوية', 
-//       icon: <PaletteIcon className="w-6 h-6 ml-2" /> 
+//     {
+//       name: 'الفنون اليدوية',
+//       icon: <PaletteIcon className="w-6 h-6 ml-2" />
 //     },
-//     { 
-//       name: 'الخياطة', 
-//       icon: <ScissorsIcon className="w-6 h-6 ml-2" /> 
+//     {
+//       name: 'الخياطة',
+//       icon: <ScissorsIcon className="w-6 h-6 ml-2" />
 //     }
 //   ];
 
-//   const filteredProducts = selectedCategory === 'الكل' 
-//     ? productData 
+//   const filteredProducts = selectedCategory === 'الكل'
+//     ? productData
 //     : productData.filter(product => product.category === selectedCategory);
 
 //   return (
-//     <div 
-//       className="min-h-screen bg-white py-20" 
+//     <div
+//       className="min-h-screen bg-white py-20"
 //       style={{ fontFamily: 'Cairo, Arial, sans-serif' }}
 //     >
 //       <div className="container mx-auto px-6">
@@ -276,8 +276,8 @@
 //               key={category.name}
 //               onClick={() => setSelectedCategory(category.name)}
 //               className={`flex items-center px-6 py-3 rounded-full transition-all duration-300 ${
-//                 selectedCategory === category.name 
-//                   ? 'bg-[#9C27B0] text-white shadow-lg' 
+//                 selectedCategory === category.name
+//                   ? 'bg-[#9C27B0] text-white shadow-lg'
 //                   : 'bg-white text-[#9C27B0] hover:bg-[#9C27B0] hover:text-white'
 //               }`}
 //             >
@@ -290,9 +290,9 @@
 //         {/* شبكة المنتجات */}
 //         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 //           {filteredProducts.map(product => (
-//             <ProductCard 
-//               key={product.id} 
-//               product={product} 
+//             <ProductCard
+//               key={product.id}
+//               product={product}
 //             />
 //           ))}
 //         </div>
@@ -303,19 +303,27 @@
 
 // export default CatalogPage;
 ////////////////////////////////////////////////////
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios'; // تأكد من تثبيت axios
-import { Heart, ShoppingCart, Star, Flower, PaletteIcon, ScissorsIcon, EyeIcon } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios"; // تأكد من تثبيت axios
+import {
+  Heart,
+  ShoppingCart,
+  Star,
+  Flower,
+  PaletteIcon,
+  ScissorsIcon,
+  EyeIcon,
+} from "lucide-react";
 
 // مكون بطاقة المنتج
 const ProductCard = ({ product }) => {
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all hover:scale-105 group">
       <div className="relative">
-        <img 
-          src={product.image || "/api/placeholder/300/400"} 
-          alt={product.name} 
+        <img
+          src={product.mainImage || "/api/placeholder/300/400"}
+          alt={product.titleAr}
           className="w-full h-72 object-cover transition-transform group-hover:scale-110"
         />
         <div className="absolute top-4 left-4 bg-[#9C27B0]/80 text-white px-3 py-1 rounded-full flex items-center">
@@ -327,15 +335,13 @@ const ProductCard = ({ product }) => {
         <h3 className="text-xl font-bold mb-2 text-[#4A4A4A]">
           {product.name}
         </h3>
-        <p className="text-[#757575] mb-4">
-          {product.description}
-        </p>
+        <p className="text-[#757575] mb-4">{product.description}</p>
         <div className="flex justify-between items-center">
           <span className="text-lg font-bold text-[#9C27B0]">
             {product.price} ر.س
           </span>
-          <Link 
-            to={`/product/${product._id}`} 
+          <Link
+            to={`/product/${product._id}`}
             className="bg-[#9C27B0] text-white p-2 rounded-full hover:bg-[#7B1FA2] transition-colors"
           >
             <EyeIcon size={20} />
@@ -348,38 +354,40 @@ const ProductCard = ({ product }) => {
 
 // الصفحة الرئيسية للكتالوج
 const CatalogPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState('الكل');
+  const [selectedCategory, setSelectedCategory] = useState("الكل");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const categories = [
-    { 
-      name: 'الكل', 
-      icon: null 
+    {
+      name: "الكل",
+      icon: null,
     },
-    { 
-      name: 'التطريز', 
-      icon: <Flower className="w-6 h-6 ml-2" /> 
+    {
+      name: "التطريز",
+      icon: <Flower className="w-6 h-6 ml-2" />,
     },
-    { 
-      name: 'الفنون اليدوية', 
-      icon: <PaletteIcon className="w-6 h-6 ml-2" /> 
+    {
+      name: "الفنون اليدوية",
+      icon: <PaletteIcon className="w-6 h-6 ml-2" />,
     },
-    { 
-      name: 'الخياطة', 
-      icon: <ScissorsIcon className="w-6 h-6 ml-2" /> 
-    }
+    {
+      name: "الخياطة",
+      icon: <ScissorsIcon className="w-6 h-6 ml-2" />,
+    },
   ];
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products/all');
+        const response = await axios.get(
+          "http://localhost:5000/api/products/all"
+        );
         setProducts(response.data.data.products);
         setLoading(false);
       } catch (err) {
-        console.error('Fetch Error:', err);
+        console.error("Fetch Error:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -388,9 +396,10 @@ const CatalogPage = () => {
     fetchProducts();
   }, []);
 
-  const filteredProducts = selectedCategory === 'الكل' 
-    ? products 
-    : products.filter(product => product.category === selectedCategory);
+  const filteredProducts =
+    selectedCategory === "الكل"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
 
   if (loading) {
     return (
@@ -409,9 +418,9 @@ const CatalogPage = () => {
   }
 
   return (
-    <div 
-      className="min-h-screen bg-white py-20" 
-      style={{ fontFamily: 'Cairo, Arial, sans-serif' }}
+    <div
+      className="min-h-screen bg-white py-20"
+      style={{ fontFamily: "Cairo, Arial, sans-serif" }}
     >
       <div className="container mx-auto px-6">
         <header className="text-center mb-12">
@@ -430,9 +439,9 @@ const CatalogPage = () => {
               key={category.name}
               onClick={() => setSelectedCategory(category.name)}
               className={`flex items-center px-6 py-3 rounded-full transition-all duration-300 ${
-                selectedCategory === category.name 
-                  ? 'bg-[#9C27B0] text-white shadow-lg' 
-                  : 'bg-white text-[#9C27B0] hover:bg-[#9C27B0] hover:text-white'
+                selectedCategory === category.name
+                  ? "bg-[#9C27B0] text-white shadow-lg"
+                  : "bg-white text-[#9C27B0] hover:bg-[#9C27B0] hover:text-white"
               }`}
             >
               {category.icon}
@@ -448,11 +457,8 @@ const CatalogPage = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {filteredProducts.map(product => (
-              <ProductCard 
-                key={product._id} 
-                product={product} 
-              />
+            {filteredProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
             ))}
           </div>
         )}

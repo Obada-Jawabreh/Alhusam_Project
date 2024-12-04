@@ -54,7 +54,7 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       enum: {
-        values: ["ملابس", "طعام", "مصنوعات يدوية", "أكسسوارات", "أخرى"],
+        values: ["ملابس", "طعام", "مصنوعات يدوية", "اكسسوارات", "أخرى"],
         message: "الفئة غير صالحة",
       },
       required: [true, "الفئة مطلوبة"],

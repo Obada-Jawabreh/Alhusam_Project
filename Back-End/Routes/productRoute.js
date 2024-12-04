@@ -25,12 +25,15 @@ const productUpload = upload.fields([
 
 router.post("/add", auth, productUpload, productController.addProduct);
 
-
 // الحصول على جميع المنتجات
 router.get("/all", productController.getAllProducts);
 
 // // الحصول على منتج محدد
-router.get("/:id", productController.getProductById ); 
+router.get("/get", auth, productController.getProductForProvider);
+router.get("/:id", productController.getProductById);
+
+router.put("/update/:id", auth,  productUpload, productController.updateProduct);
+router.delete('/delete/:id',  auth,  productController.deleteProduct);
 
 // // تحديث منتج
 // router.patch("/:id", protect, productController.updateProduct);
