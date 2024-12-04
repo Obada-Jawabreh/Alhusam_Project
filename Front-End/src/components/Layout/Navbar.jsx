@@ -1,7 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const NavigationBar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <nav className="bg-[#CB9DF0] py-4 shadow-md fixed top-0 left-0 right-0 z-10">
       <div className="container mx-auto px-6 flex items-center justify-between">
@@ -23,49 +30,80 @@ const NavigationBar = () => {
           </svg>
           بازار المبدعات
         </Link>
-        <ul className="flex items-center space-x-6 text-white">
-          <li>
-            <Link
-              to="/home"
-              className="hover:text-[#F0C1E1] transition-colors duration-300"
-            >
+
+        <div className="lg:flex items-center space-x-6 text-white hidden">
+          <Link to="/" className="hover:text-[#F0C1E1] transition-colors duration-300">
+            الرئيسية
+          </Link>
+          <Link to="/products" className="hover:text-[#F0C1E1] transition-colors duration-300">
+            المنتجات
+          </Link>
+          <Link to="/providerDashboard" className="hover:text-[#F0C1E1] transition-colors duration-300">
+            الملف الشخصي 
+          </Link>
+          <Link to="/about" className="hover:text-[#F0C1E1] transition-colors duration-300">
+            من نحن
+          </Link>
+          <Link to="/contact" className="hover:text-[#F0C1E1] transition-colors duration-300">
+            تواصل معنا وقيمنا
+          </Link>
+
+             <Link to="/driver-application" className="hover:text-[#F0C1E1] transition-colors duration-300">
+            انضم كسائق
+          </Link>
+
+
+          <Link to="/login" className="bg-[#8B4093] px-4 py-2 rounded-md hover:bg-[#A050A8] transition-colors duration-300">
+            تسجيل الدخول
+          </Link>
+        </div>
+
+        <button
+          className="lg:hidden block text-white focus:outline-none"
+          onClick={toggleMenu}
+        >
+          <svg
+            className="w-6 h-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4 6H20M4 12H20M4 18H20"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {isMenuOpen && (
+        <div className="lg:hidden bg-[#CB9DF0] py-4 shadow-md">
+          <div className="container mx-auto px-6 flex flex-col space-y-4">
+            <Link to="/" className="hover:text-[#F0C1E1] transition-colors duration-300">
               الرئيسية
             </Link>
-          </li>
-          <li>
-            <Link
-              to="/products"
-              className="hover:text-[#F0C1E1] transition-colors duration-300"
-            >
+            <Link to="/products" className="hover:text-[#F0C1E1] transition-colors duration-300">
               المنتجات
             </Link>
-          </li>
-          <li>
-            <Link
-              to="/workshops"
-              className="hover:text-[#F0C1E1] transition-colors duration-300"
-            >
-              الورش التدريبية
+            <Link to="/providerDashboard" className="hover:text-[#F0C1E1] transition-colors duration-300">
+              الملف الشخصي 
             </Link>
-          </li>
-          <li>
-            <Link
-              to="/about"
-              className="hover:text-[#F0C1E1] transition-colors duration-300"
-            >
+            <Link to="/about" className="hover:text-[#F0C1E1] transition-colors duration-300">
               من نحن
             </Link>
-          </li>
-          <li>
-            <Link
-              to="/newsletter"
-              className="hover:text-[#F0C1E1] transition-colors duration-300"
-            >
-              اشترك في النشرة
+            <Link to="/newsletter" className="hover:text-[#F0C1E1] transition-colors duration-300">
+              تواصل معنا وقيمنا
             </Link>
-          </li>
-        </ul>
-      </div>
+            
+            <Link to="/login" className="bg-[#8B4093] px-4 py-2 rounded-md hover:bg-[#A050A8] transition-colors duration-300">
+              تسجيل الدخول
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
