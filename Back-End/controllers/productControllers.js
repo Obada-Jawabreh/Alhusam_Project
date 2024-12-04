@@ -2,8 +2,9 @@ const Product = require("../models/product");
 const User = require("../models/user");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const fs = require("fs").promises;
+const fs = require("fs").promises;   
 const path = require("path");
+
 exports.addProduct = async (req, res) => {
   console.log("ioyiyooii", req.body);
 
@@ -159,10 +160,10 @@ exports.deleteProduct = async (req, res) => {
       if (imageUrl) {
         try {
           const filename = path.basename(imageUrl);
-          const filepath = path.join(__dirname, '../uploads', filename);
+          const filepath = path.join(__dirname, "../uploads", filename);
           await fs.unlink(filepath).catch(() => {});
         } catch (error) {
-          console.error('Error deleting image:', error);
+          console.error("Error deleting image:", error);
         }
       }
     };
@@ -171,35 +172,58 @@ exports.deleteProduct = async (req, res) => {
     await deleteImage(product.mainImage);
 
     // Delete additional images
-    await Promise.all(
-      product.additionalImages.map(deleteImage)
-    );
+    await Promise.all(product.additionalImages.map(deleteImage));
 
-    res.status(200).json({ 
-      message: "تم حذف المنتج بنجاح" 
+    res.status(200).json({
+      message: "تم حذف المنتج بنجاح",
     });
   } catch (error) {
     console.error("خطأ في حذف المنتج:", error);
     res.status(500).json({
       message: "حدث خطأ أثناء حذف المنتج",
-      error: error.message
+      error: error.message,
     });
   }
 };
-// الحصول على جميع المنتجات
-// exports.getAllProducts = async (req, res) => {
-//   try {
-//     // استخراج معايير البحث
-//     const {
-//       category,
-//       minPrice,
-//       maxPrice,
-//       isHandmade,
-//       sort
-//     } = req.query;
+// ----------------
+exports.getProductForProvider = async (req, res) => {
+  const providerId = req.user.id;
 
+  try {
+    // التحقق من صحة ObjectId
+    if (!mongoose.Types.ObjectId.isValid(providerId)) {
+      return res.status(400).json({
+        status: "error",
+        message: "معرّف المزود غير صالح",
+      });
+    }
 
+    // جلب المنتجات الخاصة بالمزود
+    const products = await Product.find({ seller: providerId });
 
+    if (products.length === 0) {
+      return res.status(404).json({
+        status: "error",
+        message: "لا توجد منتجات لهذا المزود",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      results: products.length,
+      data: {
+        products,
+      },
+    });
+  } catch (error) {
+    console.error("خطأ أثناء جلب المنتجات للمزود:", error.message);
+    res.status(500).json({
+      status: "error",
+      message: "حدث خطأ أثناء جلب المنتجات للمزود",
+      error: error.message,
+    });
+  }
+};
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -260,74 +284,3 @@ exports.getProductById = async (req, res) => {
     });
   }
 };
-// ----------------
-exports.getProductForProvider = async (req, res) => {
-  const providerId = req.user.id;
-
-  try {
-    // التحقق من صحة ObjectId
-    if (!mongoose.Types.ObjectId.isValid(providerId)) {
-      return res.status(400).json({
-        status: "error",
-        message: "معرّف المزود غير صالح",
-      });
-    }
-
-    // جلب المنتجات الخاصة بالمزود
-    const products = await Product.find({ seller: providerId });
-
-    if (products.length === 0) {
-      return res.status(404).json({
-        status: "error",
-        message: "لا توجد منتجات لهذا المزود",
-      });
-    }
-
-    res.status(200).json({
-      status: "success",
-      results: products.length,
-      data: {
-        products,
-      },
-    });
-  } catch (error) {
-    console.error("خطأ أثناء جلب المنتجات للمزود:", error.message);
-    res.status(500).json({
-      status: "error",
-      message: "حدث خطأ أثناء جلب المنتجات للمزود",
-      error: error.message,
-    });
-  }
-};
-
-// exports.getProductById = async (req, res) => {
-//   try {
-//     const productId = req.params.id;
-
-//     // البحث عن المنتج
-//     const product = await Product.findOne({ _id: mongoose.Types.ObjectId(productId), isDeleted: false }).populate('seller').populate('reviews.user');
-
-//     if (!product) {
-//       console.log("لم يتم العثور على المنتج");
-//       return res.status(404).json({
-//         status: 'error',
-//         message: 'المنتج غير موجود أو تم حذفه',
-//       });
-//     }
-
-//     res.status(200).json({
-//       status: 'success',
-//       data: {
-//         product,
-//       },
-//     });
-//   } catch (error) {
-//     console.error("خطأ في البحث عن المنتج:", error.message);
-//     res.status(500).json({
-//       status: 'error',
-//       message: 'حدث خطأ أثناء جلب المنتج',
-//       error: error.message,
-//     });
-//   }
-// };
-
