@@ -113,6 +113,7 @@ exports.getUserById = async (req, res) => {
       .status(500)
       .json({ message: "Error fetching user data: " + error.message });
   }
+};
 
 // --------------------------------------
 // exports.updateImageUserData = async (req, res) => {
@@ -226,5 +227,4 @@ exports.updateImageUserData = async (req, res) => {
       stack: error.stack,
     });
   }
-};
 };
