@@ -27,7 +27,7 @@ router.post("/add", auth, productUpload, productController.addProduct);
 
 
 // الحصول على جميع المنتجات
-router.get("/all", productController.getAllProducts);
+router.get("/all", productController.getAllProducts);   
 
 // // الحصول على منتج محدد
 router.get("/:id", productController.getProductById ); 

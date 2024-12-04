@@ -87,17 +87,15 @@ exports.registerUser = async (req, res) => {
 // ---------------------------------------------------------------------
 exports.getUserById = async (req, res) => {
   const userId = req.user.id;
-  
+
   try {
     if (!userId) {
       return res.status(400).json({ message: "User ID is required" });
     }
 
-    const userData = await User.findById(userId)
-      .select(
-        "username email phoneNumber profilePicture aboutMe isApproved createdAt updatedAt"
-      )
-      .populate("ProviderApplication");
+    const userData = await User.findById(userId).populate(
+      "ProviderApplication"
+    );
 
     if (!userData) {
       return res.status(404).json({ message: "User not found" });
@@ -108,7 +106,7 @@ exports.getUserById = async (req, res) => {
       ProviderApplication: userData.ProviderApplication || null,
     };
 
-    res.status(200).json(user);
+    res.status(200).json({ user, loggedIn: true });
   } catch (error) {
     res
       .status(500)

@@ -12,7 +12,11 @@ import ProductDetailPage from "./pages/Detailes/Detailes.jsx";
 
 import ProviderApplicationForm from "./pages/provider.jsx";
 import UserProfile from "./pages/userProfile.jsx";
- 
+import ContactUs from "./pages/Contact/ContactUs";
+
+import DriverApplication from "./pages/DriverApplication";
+// import TestimonialManagement from "./pages/Testimonials/TestimonialManagement";
+
 
 function App() {
   return (
@@ -35,6 +39,12 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/provider" element={<ProviderApplicationForm />} />
+        
+        <Route path="/contact" element={<ContactUs />} />
+        {/* <Route path="/testimonials" element={<TestimonialManagement />} /> */}
+
+        <Route path="/driver-application" element={<DriverApplication />} />
+
       </Routes>
     </Router>
   );
