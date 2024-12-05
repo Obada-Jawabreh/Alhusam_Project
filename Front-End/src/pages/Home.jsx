@@ -3,7 +3,7 @@ import {
   CategoriesSection,
   FeaturedProductsSection,
   CommunitySection,
-  NewsletterSection,
+  // NewsletterSection,
   TestimonialsSection,
   AboutUsSection,
 } from "../pages/Home/about";
@@ -17,7 +17,7 @@ const HomePage = () => {
       <AboutUsSection />
       <FeaturedProductsSection />
       <CommunitySection />
-      <NewsletterSection />
+      {/* <NewsletterSection /> */}
       <TestimonialsSection />
     </div>
   );

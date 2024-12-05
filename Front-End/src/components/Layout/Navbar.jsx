@@ -41,9 +41,6 @@ const NavigationBar = () => {
           <Link to="/providerDashboard" className="hover:text-[#F0C1E1] transition-colors duration-300">
             الملف الشخصي 
           </Link>
-          <Link to="/about" className="hover:text-[#F0C1E1] transition-colors duration-300">
-            من نحن
-          </Link>
           <Link to="/contact" className="hover:text-[#F0C1E1] transition-colors duration-300">
             تواصل معنا وقيمنا
           </Link>
