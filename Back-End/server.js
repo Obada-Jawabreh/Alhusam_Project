@@ -45,7 +45,7 @@ const path = require("path");
 const contactRoutes = require("./Routes/contactRoute");
 const testimonialRoutes = require("./Routes/testimonialRoute");
 const requestRoutes = require("./Routes/requestRoute");
-const review =require("./Routes/ReviewRoutes")
+const review = require("./Routes/ReviewRoutes");
 
 app.use("/api/requests", requestRoutes);
 app.use(bodyParser.json());
@@ -63,11 +63,13 @@ app.use("/api/products", productRoutes);
 connectDB(); // Call the function to establish the connection
 
 const userRoutes = require("./routes/userRoute");
+const orderRoutes = require('./routes/orderRoutes');
 
 app.use("/api/user", userRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/contact", contactRoutes);
-app.use("/api/review",review)
+app.use("/api/review", review);
+app.use('/api/orders', orderRoutes);
 
 // Start the server
 app.listen(PORT, () => {
