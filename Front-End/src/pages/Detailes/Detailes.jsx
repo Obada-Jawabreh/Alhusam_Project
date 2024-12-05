@@ -309,12 +309,7 @@ const addToCart = async () => {
                 alt="صورة المنتج"
                 className="w-full rounded-2xl shadow-2xl transform transition-all hover:scale-105"
               />
-              <button
-                onClick={() => setIsLiked(!isLiked)}
-                className="absolute top-4 right-4 bg-[#9C27B0]/80 text-white p-3 rounded-full"
-              >
-                <Heart color="white" fill={isLiked ? "#9C27B0" : "none"} />
-              </button>
+            
             </div>
 
             {/* معاينة الصور */}
