@@ -15,6 +15,8 @@ import UserProfile from "./pages/userProfile.jsx";
 import ContactUs from "./pages/Contact/ContactUs";
 
 import DriverApplication from "./pages/DriverApplication";
+import Cart from "./pages/cart.jsx";
+import Checkout from "./pages/checkout.jsx";
 // import TestimonialManagement from "./pages/Testimonials/TestimonialManagement";
 
 
@@ -24,13 +26,15 @@ function App() {
       <Routes>
         {/* مسار الصفحة الرئيسية */}
         <Route path="/" element={<Home />} />
- 
+
         <Route path="/userprofile" element={<UserProfile />} />
- 
+
 
         {/* مسار صفحة المنتجات */}
         <Route path="/products" element={<Products />} />
- 
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+
 
 
         <Route path="/providerDashboard" element={<ProviderDashboard />} />
