@@ -411,4 +411,24 @@ router.post('/create', auth, async (req, res) => {
     }
 });
 
+
+
+router.get('/orders', auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Populate order with product details
+    const orders = await Order.find({ user: userId })
+      .populate({
+        path: 'items.product',
+        select: 'name description' // Select only specific product fields
+      })
+      .sort({ createdAt: -1 }); // Sort by most recent first
+
+    res.json(orders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ message: 'Server error fetching orders' });
+  }
+});
 module.exports = router;
