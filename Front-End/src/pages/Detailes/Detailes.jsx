@@ -15,6 +15,7 @@ import {
 import { fetchUser } from "../../redux/users/userThunk";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import NavigationBar from "../../components/Layout/Navbar";
 
 const ReviewForm = ({ productId, onReviewAdded }) => {
   const [rating, setRating] = useState(0);
@@ -290,7 +291,8 @@ const addToCart = async () => {
     <div
       className="min-h-screen bg-gradient-to-br from-[#F3E5F5] via-[#E1F5FE] to-[#FFF3E0] py-12"
       style={{ fontFamily: "Cairo, Arial, sans-serif" }}
-    >
+    >      <NavigationBar/>
+
       <div className="container mx-auto px-6">
         <button
           onClick={onBackToCatalog}

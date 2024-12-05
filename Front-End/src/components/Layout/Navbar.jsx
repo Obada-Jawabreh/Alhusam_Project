@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { fetchUser } from "../../redux/users/userThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuthActions } from "./../../components/hooks/logout";
+import defaultImage from "./../../assets/images/user.png";
 
 const NavigationBar = () => {
   const { handleLogout } = useAuthActions();
@@ -64,14 +65,14 @@ const NavigationBar = () => {
   //     navigate("/login");
   //   }
   // };
-const handleProfileNavigation = () => {
-  // Check the user's role and navigate accordingly
-  if (user.role === 'user') {
-    navigate('/profile');
-  } else if (user.role === 'provider') {
-    navigate('/providerDashboard');
-  }
-};
+  const handleProfileNavigation = () => {
+    // Check the user's role and navigate accordingly
+    if (user.role === "user") {
+      navigate("/userprofile");
+    } else if (user.role === "provider") {
+      navigate("/providerDashboard");
+    }
+  };
   return (
     <nav className="bg-[#CB9DF0] py-4 shadow-md fixed top-0 left-0 right-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -111,17 +112,12 @@ const handleProfileNavigation = () => {
             >
               المنتجات
             </Link>
-            <button
-              onClick={handleProfileNavigation}
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-md"
-            >
-              الملف الشخصي
-            </button>
+
             <Link
-              to="/about"
+              to="/cart"
               className="hover:text-[#F0C1E1] transition-colors duration-300"
             >
-              من نحن
+              سلة المنتجات
             </Link>
             <Link
               to="/contact"
@@ -150,7 +146,7 @@ const handleProfileNavigation = () => {
                     alt="User Profile"
                     className="w-10 h-10 rounded-full mr-3 object-cover"
                     onError={(e) => {
-                      e.target.src = "/default-avatar.png";
+                      e.target.src = defaultImage;
                     }}
                   />
                   <span className="text-white mr-2 text-lg">

@@ -103,7 +103,7 @@ const ProviderApplicationForm = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-4xl sm:mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-r bg-primary hover:bg-primary-hover shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-full mx-auto">
             <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-6">
@@ -257,7 +257,7 @@ const ProviderApplicationForm = () => {
                     <button
                       type="button"
                       onClick={() => fileInputRef.current.click()}
-                      className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                      className="flex items-center bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg "
                     >
                       <Upload className="mr-2" /> رفع الصور
                     </button>
@@ -306,7 +306,7 @@ const ProviderApplicationForm = () => {
                   className={`w-full py-3 rounded-lg text-white font-semibold transition-colors ${
                     isSubmitting 
                       ? 'bg-blue-300 cursor-not-allowed' 
-                      : 'bg-blue-500 hover:bg-blue-600'
+                      : 'bg-primary hover:bg-primary-hover'
                   }`}
                 >
                   {isSubmitting ? 'جاري الإرسال...' : 'إرسال الطلب'}
