@@ -1,16 +1,15 @@
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import axios from 'axios';
+import { ChevronLeft, ChevronRight, Star, ShoppingBasket } from 'lucide-react';
+import { QuoteIcon } from 'lucide-react';
 import {
   Flower,
   PaletteIcon,
   ScissorsIcon,
   HeartHandshakeIcon,
-  ShoppingBasketIcon,
   StarIcon,
-  Star,
-  ShoppingBasket,
-  ChevronLeft,
-  ChevronRight,
   Target,
   BookOpen,
   Globe,
@@ -53,20 +52,20 @@ export const HeroSection = () => {
 export const CategoriesSection = () => {
   const categories = [
     {
-      name: "التطريز",
-      description: "إبداعات يدوية متقنة",
+      name: "اكسسوارات",
+      description: "تصاميم أنيقة",
       icon: <Flower className="w-16 h-16 text-[#9C27B0]" />,
       color: "bg-[#F3E5F5]",
     },
     {
-      name: "الفنون اليدوية",
+      name: "أطعمة شهية",
       description: "تقنيات متنوعة",
       icon: <PaletteIcon className="w-16 h-16 text-[#9C27B0]" />,
       color: "bg-[#E1F5FE]",
     },
     {
-      name: "الخياطة",
-      description: "تصاميم أنيقة",
+      name: "مصنوعات يدوية",
+      description: "إبداعات يدوية متقنة",
       icon: <ScissorsIcon className="w-16 h-16 text-[#9C27B0]" />,
       color: "bg-[#FFF3E0]",
     },
@@ -89,9 +88,11 @@ export const CategoriesSection = () => {
                 {category.name}
               </h3>
               <p className="text-[#757575] mb-6">{category.description}</p>
-              <button className="bg-[#9C27B0] text-white px-6 py-3 rounded-full hover:bg-[#7B1FA2] transition-colors">
-                تصفح المنتجات
-              </button>
+              <Link to="/products">
+      <button className="bg-[#9C27B0] text-white px-6 py-3 rounded-full hover:bg-[#7B1FA2] transition-colors">
+        تصفح المنتجات
+      </button>
+    </Link>
             </div>
           ))}
         </div>
@@ -99,53 +100,41 @@ export const CategoriesSection = () => {
     </section>
   );
 };
-
 export const FeaturedProductsSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const products = [
-    {
-      name: "مفرش مطبخ مطرز",
-      price: 120,
-      image: "../../../public/image/7.png",
-      description: "تطريز يدوي دقيق بألوان رائعة",
-      rating: 4.5,
-    },
-    {
-      name: "حقيبة يدوية",
-      price: 180,
-      image: "../../../public/image/8.png",
-      description: "حقيبة عصرية مصنوعة بعناية فائقة",
-      rating: 5,
-    },
-    {
-      name: "وسادة مزخرفة",
-      price: 90,
-      image: "../../../public/image/9.png",
-      description: "وسادة أنيقة تضيف لمسة جمالية لمنزلك",
-      rating: 4,
-    },
-    {
-      name: "طاولة قهوة",
-      price: 300,
-      image: "../../../public/image/Untitled (616 x 616 px) (277 x 288 px).png",
-      description: "طاولة قهوة أنيقة وعملية",
-      rating: 4.8,
-    },
-    {
-      name: "سجاد يدوي",
-      price: 450,
-      image: "../../../public/image/11.png",
-      description: "سجاد يدوي بتصميم جميل",
-      rating: 4.2,
-    },
-    {
-      name: "كرسي هزاز",
-      price: 200,
-      image: "../../../public/image/10.png",
-      description: "كرسي هزاز مريح وأنيق",
-      rating: 4.6,
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        // Update the URL to your backend endpoint
+        const response = await axios.get('http://localhost:5000/api/products/all');
+        
+        // Assuming the response has a data structure like { status: "success", data: { products: [] } }
+        const fetchedProducts = response.data.data.products;
+        
+        // Transform backend products to match the existing component's expected structure
+        const transformedProducts = fetchedProducts.map(product => ({
+          name: product.titleAr, // Using titleAr from the backend model
+          price: product.price,
+          image: product.mainImage, // Using mainImage from the backend model
+          description: product.description,
+          rating: product.averageRating || 0, // Using averageRating from the backend model
+        }));
+
+        setProducts(transformedProducts);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch products');
+        setLoading(false);
+        console.error('Error fetching products:', err);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleNext = () => {
     setCurrentSlide((prev) => (prev + 1) % Math.ceil(products.length / 3));
@@ -158,6 +147,26 @@ export const FeaturedProductsSection = () => {
         Math.ceil(products.length / 3)
     );
   };
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-[#F3E5F5] relative">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-2xl text-[#6A1B9A]">جاري تحميل المنتجات...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-20 bg-[#F3E5F5] relative">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-2xl text-red-600">{error}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-[#F3E5F5] relative">
@@ -227,11 +236,13 @@ export const FeaturedProductsSection = () => {
                         </p>
                         <div className="flex justify-between items-center">
                           <span className="text-lg font-bold text-[#9C27B0]">
-                            {product.price} ر.س
+                            {product.price} د.أ
                           </span>
-                          <button className="bg-[#9C27B0] text-white px-4 py-2 rounded-full hover:bg-[#7B1FA2] transition-colors">
-                            <ShoppingBasket className="w-5 h-5" />
-                          </button>
+                          <Link to="/products">
+      <button className="bg-[#9C27B0] text-white px-4 py-2 rounded-full hover:bg-[#7B1FA2] transition-colors">
+        <ShoppingBasket className="w-5 h-5" />
+      </button>
+    </Link>
                         </div>
                       </div>
                     </div>
@@ -253,6 +264,7 @@ export const FeaturedProductsSection = () => {
     </section>
   );
 };
+
 
 export const CommunitySection = () => {
   return (
@@ -381,52 +393,170 @@ export const WorkshopsSection = () => {
   );
 };
 
+
+
 export const TestimonialsSection = () => {
-  const testimonials = [
-    {
-      name: "سارة أحمد",
-      quote: "بازار المبدعات غيّر مسار مشروعي الصغير وفتح لي آفاقًا جديدة",
-      avatar: "/api/placeholder/100/100",
-    },
-    {
-      name: "لمياء محمد",
-      quote: "تعلمت الكثير من الورش التدريبية وأصبحت أمتلك مهارات احترافية",
-      avatar: "/api/placeholder/100/100",
-    },
-  ];
+  const [testimonials, setTestimonials] = useState([]);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/testimonials/all');
+        const activeTestimonials = response.data.filter(testimonial => testimonial.isActive);
+        setTestimonials(activeTestimonials);
+        setIsLoading(false);
+      } catch (err) {
+        setError('حدث خطأ في تحميل التقييمات');
+        setIsLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
+  // Auto-slide functionality
+  useEffect(() => {
+    if (testimonials.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentTestimonial((prev) => 
+          (prev + 1) % testimonials.length
+        );
+      }, 5000); // Change slide every 5 seconds
+
+      return () => clearInterval(timer);
+    }
+  }, [testimonials]);
+
+  const handleNextTestimonial = () => {
+    setCurrentTestimonial((prev) => 
+      (prev + 1) % testimonials.length
+    );
+  };
+
+  const handlePrevTestimonial = () => {
+    setCurrentTestimonial((prev) => 
+      (prev - 1 + testimonials.length) % testimonials.length
+    );
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-500 p-8">
+        {error}
+      </div>
+    );
+  }
+
+  if (testimonials.length === 0) {
+    return (
+      <div className="text-center p-8">
+        لا توجد تقييمات حاليًا
+      </div>
+    );
+  }
+
+  const testimonial = testimonials[currentTestimonial];
 
   return (
-    <section className="py-20 bg-[#F3E5F5]">
-      <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center text-[#6A1B9A] mb-12">
-          قصص نجاح
-        </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-2xl p-8 shadow-lg transform transition-all hover:scale-105"
+    <div className="py-20 bg-[#F3E5F5]">
+      <div className="container mx-auto max-w-4xl">
+      <h2 className="text-4xl font-bold text-[#6A1B9A] mb-12 text-center">
+      أصوات تثق بها
+</h2>
+
+        <div className="bg-white  shadow-2xl rounded-3xl overflow-hidden relative">
+          {/* Navigation Arrows */}
+          <button 
+            onClick={handlePrevTestimonial}
+            className="absolute top-1/2 left-4 z-20 transform -translate-y-1/2 bg-[#9C27B0] text-white p-2 rounded-full hover:bg-blue-600 transition-colors"
+          >
+            ←
+          </button>
+          <button 
+            onClick={handleNextTestimonial}
+            className="absolute top-1/2 right-4 z-20 transform -translate-y-1/2 bg-[#9C27B0] text-white p-2 rounded-full hover:bg-blue-600 transition-colors"
+          >
+            →
+          </button>
+
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={currentTestimonial}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col md:flex-row items-center p-8 md:p-16"
             >
-              <div className="flex items-center mb-6">
-                <img
-                  src={testimonial.avatar}
-                  alt={testimonial.name}
-                  className="w-20 h-20 rounded-full ml-6 border-4 border-[#9C27B0]"
-                />
-                <div>
-                  <h3 className="text-2xl font-bold text-[#4A4A4A]">
-                    {testimonial.name}
-                  </h3>
-                  <p className="text-[#757575] mt-2">"{testimonial.quote}"</p>
+              {/* Avatar and Illustration */}
+              <div className="w-full md:w-1/3 flex justify-center mb-6 md:mb-0">
+                <div className="relative">
+                  <img 
+                    src={testimonial.avatar || "/api/placeholder/200/200"}
+                    alt={testimonial.author}
+                    className="w-48 h-48 rounded-full object-cover border-4 border-[#9C27B0] shadow-lg"
+                  />
+                  <div className="absolute -bottom-4 -right-4 bg-green-500 text-white p-2 rounded-full shadow-lg">
+                    <QuoteIcon size={24} />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+
+              {/* Testimonial Content */}
+              <div className="w-full md:w-2/3 text-center md:text-right md:pr-8">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                  {testimonial.author}
+                </h3>
+                <p className="text-xl text-gray-600 italic leading-relaxed mb-6">
+                  "{testimonial.text}"
+                </p>
+                
+                {/* Rating */}
+                <div className="flex justify-center md:justify-end mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <span 
+                      key={i} 
+                      className="text-yellow-500 text-2xl mx-1"
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Pagination Dots */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentTestimonial(index)}
+                className={`w-3 h-3 rounded-full ${
+                  index === currentTestimonial 
+                    ? 'bg-[#9C27B0]' 
+                    : 'bg-blue-200'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
+
 
 export const AboutUsSection = () => {
   const values = [
