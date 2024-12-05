@@ -108,7 +108,7 @@ exports.getUserById = async (req, res) => {
     };
 
     res.status(200).json({ user, loggedIn: true });
-  } catch (error) {
+  } catch (error) { 
     res
       .status(500)
       .json({ message: "Error fetching user data: " + error.message });
@@ -225,6 +225,50 @@ exports.updateImageUserData = async (req, res) => {
       message: "Error updating profile image",
       error: error.message,
       stack: error.stack,
+    });
+  }
+};
+// -----------------------------
+exports.updateUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { username, aboutMe } = req.body;
+
+    // Check if both fields are provided
+    if (!username && !aboutMe) {
+      return res.status(400).json({ message: "No fields to update" });
+    }
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update the username if it's provided
+    if (username) {
+      user.username = username;
+    }
+
+    // Update the aboutMe if it's provided
+    if (aboutMe) {
+      user.aboutMe = aboutMe;
+    }
+
+    // Save the updated user data
+    await user.save();
+
+    res.status(200).json({
+      message: "User data updated successfully",
+      updatedUser: {
+        username: user.username,
+        aboutMe: user.aboutMe,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error updating user data",
+      error: error.message,
     });
   }
 };
