@@ -8,13 +8,15 @@ const multer = require("multer");
 const path = require("path");
 const upload = require("../config/multer-config");
 
-const { getUserProfile, updateUserProfile } = require("../controllers/userprofile");
-
+const {
+  getUserProfile,
+  updateUserProfile,
+} = require("../controllers/userprofile");
 
 router.post("/register/user", userController.registerUser);
 router.post("/login/user", userController.loginUser);
 router.get("/get", auth, userController.getUserById);
-
+router.put("/update", auth, userController.updateUser);
 router.put(
   "/update/image",
   auth,
@@ -54,14 +56,12 @@ const storage = multer.diskStorage({
 //   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
 // });
 
-
-
 router.get("/userprofile", auth, getUserProfile);
 
 // Update user profile
 router.put("/userprofile", auth, updateUserProfile);
 
-router.post('/providerApplication',auth,async (req, res) => {
+router.post("/providerApplication", auth, async (req, res) => {
   const userId = req.user.id; // Assuming middleware populates req.user
   console.log("this is value of userId i wish this is not null ", userId);
   const {

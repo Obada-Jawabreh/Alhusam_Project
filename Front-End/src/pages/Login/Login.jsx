@@ -90,7 +90,6 @@ const Login = () => {
             >
               {loading ? "جاري التحميل..." : "تسجيل الدخول"}
             </button>
-            {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
           </form>
           <p className="mt-4 text-center">
             ليس لديك حساب؟{" "}

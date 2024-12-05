@@ -100,11 +100,18 @@ const TherapistHeader = ({ user, onUpdateProfile }) => {
   };
 
   const handleSaveChanges = () => {
-    onUpdateProfile({
-      ...editedUser,
-      Picture: profilePicture,
-    });
-    setIsEditModalOpen(false);
+    // إرسال البيانات إلى الخادم عبر Redux Thunk
+    dispatch(updateUser(editedUser))
+      .unwrap()
+      .then(() => {
+        // عند نجاح التحديث
+        setIsEditModalOpen(false);
+        console.log("Profile updated successfully!");
+      })
+      .catch((error) => {
+        // عند حدوث خطأ
+        console.error("Error updating profile:", error);
+      });
   };
 
   return (
@@ -152,7 +159,7 @@ const TherapistHeader = ({ user, onUpdateProfile }) => {
         </div>
 
         {/* Navigation Button */}
-        <div>
+        {/* <div>
           <Button
             variant="secondary"
             onClick={() => navigate("/")}
@@ -160,7 +167,7 @@ const TherapistHeader = ({ user, onUpdateProfile }) => {
           >
             Profile
           </Button>
-        </div>
+        </div> */}
 
         {/* Edit Profile Dialog */}
         <Dialog
@@ -178,16 +185,15 @@ const TherapistHeader = ({ user, onUpdateProfile }) => {
                 value={editedUser.username}
                 onChange={handleInputChange}
                 placeholder="Enter username"
+                className="h-24 text-black"
               />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">About Me</label>
+
               <Input
                 name="aboutMe"
                 value={editedUser.aboutMe}
                 onChange={handleInputChange}
                 placeholder="Tell us about yourself"
-                className="h-24"
+                className="h-24 text-black"
               />
             </div>
             <Button
