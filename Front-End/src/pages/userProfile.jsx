@@ -1,3 +1,4 @@
+ 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Upload, User, Mail, FileText, Package, ShoppingCart, Calendar, DollarSign } from "lucide-react";
@@ -136,15 +137,15 @@ export default function UserProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#9C27B0] to-[#9C27B0] text-[#EEF6F9] py-10 px-4">
-      <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-lg shadow-2xl rounded-2xl overflow-hidden">
-        <div className="flex border-b border-white/20">
-          <button 
+    <div className="min-h-screen text-black mt-12 py-10 px-4">
+      <div className="max-w-4xl mx-auto   backdrop-blur-lg shadow-2xl rounded-2xl overflow-hidden">
+        <div className="flex border-b border-black/20">
+          <button
             onClick={() => setActiveTab("profile")}
             className={`flex-1 py-4 text-center transition-all duration-300 ${
               activeTab === "profile" 
-                ? 'bg-white/20 text-white border-b-2 border-white' 
-                : 'hover:bg-white/10 text-white/70 hover:text-white'
+                ? 'bg-[#9C27B0]/20 text-[#9C27B0] border-b-2 border-[#9C27B0]'
+                : 'hover:bg-[#9C27B0]/10 text-black/70 hover:text-[#9C27B0]'
             }`}
           >
             Profile
@@ -153,8 +154,8 @@ export default function UserProfile() {
             onClick={() => setActiveTab("orders")}
             className={`flex-1 py-4 text-center transition-all duration-300 ${
               activeTab === "orders" 
-                ? 'bg-white/20 text-white border-b-2 border-white' 
-                : 'hover:bg-white/10 text-white/70 hover:text-white'
+                ? 'bg-[#9C27B0]/20 text-[#9C27B0] border-b-2 border-[#9C27B0]'
+                : 'hover:bg-[#9C27B0]/10 text-black/70 hover:text-[#9C27B0]'
             }`}
           >
             My Orders
@@ -167,21 +168,21 @@ export default function UserProfile() {
               {!isEditing ? (
                 <button 
                   onClick={() => setIsEditing(true)}
-                  className="text-white bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full transition-all"
+                  className="text-white bg-[#9C27B0] hover:bg-[#9C27B0]/90 px-4 py-2 rounded-full transition-all"
                 >
                   Edit Profile
                 </button>
               ) : (
                 <button 
                   onClick={() => setIsEditing(false)}
-                  className="text-white bg-red-500/50 hover:bg-red-500/70 px-4 py-2 rounded-full transition-all"
+                  className="text-white bg-red-500 hover:bg-red-500/90 px-4 py-2 rounded-full transition-all"
                 >
                   Cancel
                 </button>
               )}
             </div>
 
-            <h1 className="text-3xl font-bold text-white mb-6 text-center">User Profile</h1>
+            <h1 className="text-3xl font-bold text-black mb-6 text-center">User Profile</h1>
             
             <div className="flex flex-col items-center space-y-4 mb-8">
               <div className="relative group">
@@ -189,18 +190,18 @@ export default function UserProfile() {
                   <img
                     src={formData.profilePicture}
                     alt="Profile"
-                    className="w-32 h-32 rounded-full border-4 border-white/30 object-cover shadow-lg group-hover:opacity-75 transition-opacity"
+                    className="w-32 h-32 rounded-full border-4 border-black/30 object-cover shadow-lg group-hover:opacity-75 transition-opacity"
                   />
                 ) : (
-                  <div className="w-32 h-32 flex items-center justify-center rounded-full bg-white/20 text-white">
+                  <div className="w-32 h-32 flex items-center justify-center rounded-full bg-black/20 text-black">
                     <User size={48} />
                   </div>
                 )}
-                
+
                 {isEditing && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                     <label className="cursor-pointer">
-                      <Upload size={24} color="white" />
+                      <Upload size={24} color="black" />
                       <input 
                         type="file" 
                         accept="image/*"
@@ -214,8 +215,8 @@ export default function UserProfile() {
               
               {!isEditing && (
                 <div className="text-center">
-                  <h2 className="text-xl font-semibold text-white">{user.username}</h2>
-                  <p className="text-white/70">{user.email}</p>
+                  <h2 className="text-xl font-semibold text-black">{user.username}</h2>
+                  <p className="text-black/70">{user.email}</p>
                 </div>
               )}
             </div>
@@ -223,41 +224,41 @@ export default function UserProfile() {
             {isEditing && (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="username" className="block text-white/80 mb-2">Username</label>
+                  <label htmlFor="username" className="block text-black/80 mb-2">Username</label>
                   <input 
                     type="text"
                     id="username"
                     name="username"
                     value={formData.username}
                     onChange={handleChange}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-black/10 border border-black/20 rounded-lg px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-black/30"
                     placeholder="Enter your username"
                   />
                   {errors.username && <p className="text-red-300 text-sm mt-1">{errors.username}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-white/80 mb-2">Email</label>
+                  <label htmlFor="email" className="block text-black/80 mb-2">Email</label>
                   <input 
                     type="email"
                     id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-black/10 border border-black/20 rounded-lg px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-black/30"
                     placeholder="Enter your email"
                   />
                   {errors.email && <p className="text-red-300 text-sm mt-1">{errors.email}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="bio" className="block text-white/80 mb-2">Bio</label>
+                  <label htmlFor="bio" className="block text-black/80 mb-2">Bio</label>
                   <textarea 
                     id="bio"
                     name="bio"
                     value={formData.bio}
                     onChange={handleChange}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-black/10 border border-black/20 rounded-lg px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-black/30"
                     placeholder="Tell us about yourself"
                     rows={4}
                   />
@@ -267,7 +268,7 @@ export default function UserProfile() {
                 <div className="flex justify-center">
                   <button 
                     type="submit" 
-                    className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-full transition-all"
+                    className="bg-[#9C27B0] hover:bg-[#9C27B0]/90 text-white px-6 py-2 rounded-full transition-all"
                   >
                     Save Changes
                   </button>
@@ -279,43 +280,43 @@ export default function UserProfile() {
 
         {activeTab === "orders" && (
           <div className="p-8">
-            <h2 className="text-2xl font-bold text-white mb-6">My Orders</h2>
+            <h2 className="text-2xl font-bold text-black mb-6">My Orders</h2>
             {orders.length === 0 ? (
-              <p className="text-white/70 text-center">No orders found</p>
+              <p className="text-black/70 text-center">No orders found</p>
             ) : (
               <div className="space-y-4">
                 {orders.map(order => (
                   <div 
                     key={order._id} 
-                    className="bg-white/10 border border-white/20 rounded-lg shadow-sm p-6 hover:bg-white/20 transition-all"
+                    className="bg-black/10 border border-black/20 rounded-lg shadow-sm p-6 hover:bg-black/20 transition-all"
                   >
                     <div className="flex justify-between items-center mb-4">
                       <div className="flex items-center space-x-2">
-                        <Package size={20} className="text-white" />
-                        <h3 className="font-semibold text-white">Order #{order._id.slice(-6)}</h3>
+                        <Package size={20} className="text-black" />
+                        <h3 className="font-semibold text-black">Order #{order._id.slice(-6)}</h3>
                       </div>
                       {renderOrderStatus(order.driverStatus)}
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 text-sm text-white/80">
+                    <div className="grid grid-cols-2 gap-4 text-sm text-black/80">
                       <div>
                         <div className="flex items-center space-x-2 mb-2">
-                          <ShoppingCart size={16} className="text-white/70" />
+                          <ShoppingCart size={16} className="text-black/70" />
                           <span>Total Items: {order.items.length}</span>
                         </div>
                         <div className="flex items-center space-x-2 mb-2">
-                          <DollarSign size={16} className="text-white/70" />
+                          <DollarSign size={16} className="text-black/70" />
                           <span>Total: ${order.total.toFixed(2)}</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <Calendar size={16} className="text-white/70" />
+                          <Calendar size={16} className="text-black/70" />
                           <span>{new Date(order.createdAt).toLocaleDateString()}</span>
                         </div>
                       </div>
 
                       <div>
-                        <h4 className="font-medium mb-2 text-white">Delivery Address</h4>
-                        <p className="text-white/70">
+                        <h4 className="font-medium mb-2 text-black">Delivery Address</h4>
+                        <p className="text-black/70">
                           {order.deliveryAddress.street}, 
                           {order.deliveryAddress.city}, 
                           {order.deliveryAddress.state} 

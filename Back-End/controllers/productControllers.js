@@ -13,6 +13,7 @@ exports.addProduct = async (req, res) => {
       titleAr,
       description,
       price,
+      stock,
       category,
       details,
       handmade,
@@ -33,6 +34,7 @@ exports.addProduct = async (req, res) => {
       titleAr,
       description,
       price: parseFloat(price),
+      stock: parseInt(stock, 10),
       category,
       details,
       material: materials,
@@ -68,6 +70,7 @@ exports.updateProduct = async (req, res) => {
       titleAr,
       description,
       price,
+      stock,
       category,
       details,
       handmade,
@@ -123,6 +126,7 @@ exports.updateProduct = async (req, res) => {
     product.titleAr = titleAr;
     product.description = description;
     product.price = parseFloat(price);
+    product.stock = stock;
     product.category = category;
     product.details = details;
     product.material = materials;
