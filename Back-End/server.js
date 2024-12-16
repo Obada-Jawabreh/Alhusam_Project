@@ -47,7 +47,7 @@ const testimonialRoutes = require("./Routes/testimonialRoute");
 const requestRoutes = require("./Routes/requestRoute");
 const review = require("./Routes/ReviewRoutes");
 
-app.use("/api/requests", requestRoutes);
+
 app.use(bodyParser.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
@@ -58,7 +58,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const productRoutes = require("./Routes/productRoute"); // تأكد من صحة المسار
 
 app.use("/api/products", productRoutes);
-
+app.use("/api/requests", requestRoutes);
 // Connect to MongoDB
 connectDB(); // Call the function to establish the connection
 

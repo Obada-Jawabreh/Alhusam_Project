@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("./../controllers/userControllers");
-
+const Stripe = require("stripe");
+const stripe = new Stripe("sk_test_51Pq8qdRr1S70aw7OIrwox6pbdjm1qhBkxjY32emZ3EMGEPhojwTqoR8owtQKpCR69WUh8Vs7kKzh0c8tPW5ae7iD00gMmrPG8u");
 const auth = require("../middleware/authMiddleware");
 const ProviderApplication = require("../models/providerApplication");
 const multer = require("multer");
@@ -284,133 +285,99 @@ router.delete("/cart/remove/:productId", auth, async (req, res) => {
 
 const axios = require('axios');
 
-router.post('/create', auth, async (req, res) => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    try {
-        const {
-            items,
-            total,
-            firstName,
-            lastName,
-            email,
-            phone,
-            deliveryAddress,
-            info,
-            paymentMethod
-        } = req.body;
 
-        // Validate required fields
-        if (!firstName || !lastName || !email || !phone || !paymentMethod) {
-            return res.status(400).json({
-                message: 'Missing required fields'
-            });
-        }
+router.post("/create", auth, async (req, res) => {
+  try {
+    const {
+      items,
+      total,
+      paymentMethod,
+      firstName,
+      lastName,
+      email,
+      phone,
+      street,
+      city,
+      state,
+      zipCode,
+      stripePaymentMethodId,
+    } = req.body;
 
-        // Validate items
-        if (!items || items.length === 0) {
-            return res.status(400).json({
-                message: 'No items in the order'
-            });
-        }
-
-        // Validate total
-        if (total <= 0) {
-            return res.status(400).json({
-                message: 'Invalid total amount'
-            });
-        }
-
-        // Find the user
-        const user = await User.findById(req.user.id).session(session);
-        if (!user) {
-            throw new Error('User not found');
-        }
-
-        // Validate items and calculate total
-        let calculatedTotal = 0;
-        const validatedItems = [];
-        for (const item of items) {
-            const product = await Product.findById(item.product).session(session);
-            if (!product) {
-                throw new Error(`Product ${item.product} not found`);
-            }
-
-            // Calculate item total
-            const itemTotal = product.price * item.quantity;
-            calculatedTotal += itemTotal;
-
-            // Prepare validated item
-            validatedItems.push({
-                product: product._id,
-                quantity: item.quantity,
-                price: product.price
-            });
-        }
-
-        // Verify total matches
-        if (Math.abs(calculatedTotal - total) > 0.01) {
-            throw new Error('Total amount mismatch');
-        }
-
-        // Find a provider
-        const provider = await ProviderApplication.findOne().session(session);
-        if (!provider) {
-            throw new Error('No provider available');
-        }
-
-        // Create order
-        const order = new Order({
-            user: user._id,
-            provider: provider._id,
-            items: validatedItems,
-            total: calculatedTotal,
-            platformProfit: calculatedTotal * 0.1, // Example platform profit calculation
-            providerProfit: calculatedTotal * 0.9, // Example provider profit calculation
-            firstName,
-            lastName,
-            email,
-            phone,
-            deliveryAddress: {
-                street: deliveryAddress.street,
-                city: deliveryAddress.city,
-                state: deliveryAddress.state,
-                zipCode: deliveryAddress.zipCode
-            },
-            info: info || '',
-            paymentMethod,
-            driverStatus: 'pending',
-            providerStatus: 'pending'
-        });
-
-        // Save order
-        await order.save({ session });
-
-        // Clear the user's cart
-        // await axios.delete('http://localhost:5000/api/user/cart/clear', {
-        //     withCredentials: true
-        // });
-
-        // Commit transaction
-        await session.commitTransaction();
-        session.endSession();
-
-        res.status(201).json({
-            message: 'Order created successfully',
-            order
-        });
-    } catch (error) {
-        // Abort transaction
-        await session.abortTransaction();
-        session.endSession();
-        console.error('Order creation error:', error);
-        res.status(500).json({
-            message: 'Error creating order',
-            error: error.message
-        });
+    // Stripe payment processing
+    let stripeCharge = null;
+    if (paymentMethod === "stripe" && stripePaymentMethodId) {
+      stripeCharge = await stripe.paymentIntents.create({
+        amount: Math.round(total * 100), // Convert to cents
+        currency: "usd",
+        payment_method: stripePaymentMethodId,
+        confirm: true,
+         return_url: 'http://localhost:5000'
+      });
     }
-});
 
+    // Ensure items array is not empty
+    if (!items || items.length === 0) {
+      return res.status(400).json({ message: "Order must contain at least one item" });
+    }
+
+    // Get the provider ID from the first item's product
+    const firstProductId = items[0]?.product?._id;
+    if (!firstProductId) {
+      return res.status(400).json({ message: "Invalid product ID in items" });
+    }
+
+    const product = await Product.findById(firstProductId).select("seller");
+    if (!product || !product.seller) {
+      return res.status(404).json({ message: "Product or provider not found" });
+    }
+
+    const providerId = product.seller;
+
+    // Create new order
+    const userId = req.user.id;
+    const newOrder = new Order({
+      user: userId,
+      provider: providerId, // Use the retrieved provider ID
+      items: items.map((item) => ({
+        product: item.product._id,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      total,
+      firstName,
+      lastName,
+      email,
+      phone,
+      deliveryAddress: {
+        street,
+        city,
+        state,
+        zipCode,
+      },
+      paymentMethod,
+      platformProfit: total * 0.1, // 10% platform profit
+      providerProfit: total * 0.9, // 90% to provider
+    });
+
+    console.log("Order items:", items);
+    await newOrder.save();
+
+    // Clear user's cart after order
+    await Cart.findOneAndUpdate(
+      { user: req.user.id },
+      { items: [], total: 0 }
+    );
+
+    res.status(201).json({
+      message: "Order created successfully",
+      order: newOrder,
+      stripePaymentDetails: stripeCharge,
+    });
+  } catch (error) {
+    console.error("Order creation error:", error);
+    res.status(500).json({ message: "Order creation failed", error: error.message });
+  }
+});
 
 
 router.get('/orders', auth, async (req, res) => {

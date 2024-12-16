@@ -52,7 +52,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: [true, "السعر مطلوب"],
       min: [0, "السعر يجب أن يكون 0 أو أكثر"],
-    }, 
+    },
     category: {
       type: String,
       enum: {
@@ -60,13 +60,13 @@ const productSchema = new mongoose.Schema(
         message: "الفئة غير صالحة",
       },
       required: [true, "الفئة مطلوبة"],
- 
+
     },
     stock: {
       type: Number,
       required: [true, "الكمية المتاحة مطلوبة"],
       min: [0, "الكمية يجب أن تكون 0 أو أكثر"],
-      default: 1,
+      // default: 1,
     },
     size: {
       type: String,

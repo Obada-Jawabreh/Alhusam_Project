@@ -184,6 +184,12 @@ const addToCart = async () => {
           throw new Error('المنتج غير متوفر');
       }
 
+
+      if (quantity > product.stock) {
+        alert("الكمية المطلوبة أكبر من المخزون المتوفر.");
+        return;
+      }
+
       const cartData = {
           items: [{
               product: id,
@@ -287,6 +293,17 @@ const addToCart = async () => {
 
   const productSpecs = generateProductSpecs(product);
 
+  const incrementQuantity = () => {
+    setQuantity(prevQuantity => 
+      Math.min(product.stock, prevQuantity + 1)
+    );
+  };
+
+  const decrementQuantity = () => {
+    setQuantity(prevQuantity => Math.max(1, prevQuantity - 1));
+  };
+
+
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-[#F3E5F5] via-[#E1F5FE] to-[#FFF3E0] py-12"
@@ -311,7 +328,7 @@ const addToCart = async () => {
                 alt="صورة المنتج"
                 className="w-full rounded-2xl shadow-2xl transform transition-all hover:scale-105"
               />
-            
+
             </div>
 
             {/* معاينة الصور */}
@@ -343,6 +360,8 @@ const addToCart = async () => {
                 <h1 className="text-3xl font-bold text-[#4A4A4A]">
                   {product.titleAr}
                 </h1>
+
+
                 <div className="flex items-center bg-[#9C27B0]/20 text-[#9C27B0] px-3 py-1 rounded-full">
                   <Star className="w-5 h-5 ml-2" />
                   {product.averageRating || 0}
@@ -366,20 +385,23 @@ const addToCart = async () => {
               </div>
 
               <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center space-x-4">
-                                    <button
-                                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                        className="bg-[#9C27B0]/10 text-[#9C27B0] w-10 h-10 rounded-full"
-                                    >
-                                        -
-                                    </button>
-                                    <span className="text-2xl font-bold">{quantity}</span>
-                                    <button
-                                        onClick={() => setQuantity(quantity + 1)}
-                                        className="bg-[#9C27B0]/10 text-[#9C27B0] w-10 h-10 rounded-full"
-                                    >
-                                        +
-                                    </button>
+
+                                <h6 className=" ">
+                 Stock: {product.stock}
+                </h6>   <div className="flex items-center space-x-4">
+                <button
+        onClick={decrementQuantity}
+        className="bg-[#9C27B0]/10 text-[#9C27B0] w-10 h-10 rounded-full"
+      >
+        -
+      </button>
+      <span className="text-2xl font-bold">{quantity}</span>
+      <button
+        onClick={incrementQuantity}
+        className="bg-[#9C27B0]/10 text-[#9C27B0] w-10 h-10 rounded-full"
+      >
+        +
+      </button>
                                 </div>
                                 <span className="text-3xl font-bold text-[#9C27B0]">
                                     {product.price * quantity} دينار

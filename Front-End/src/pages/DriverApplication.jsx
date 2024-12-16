@@ -61,13 +61,13 @@ const DriverApplication = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     setIsSubmitting(true);
-    
+
     const submitData = new FormData();
     submitData.append('name', formData.name);
     submitData.append('email', formData.email);

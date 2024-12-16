@@ -17,6 +17,7 @@ const ServicesTab = () => {
     titleAr: "",
     description: "",
     price: "",
+    stock:"",
     mainImage: null,
     additionalImages: [],
     category: categories[0],
@@ -24,6 +25,7 @@ const ServicesTab = () => {
     handmade: false,
     size: "",
     materials: "",
+
   });
 
   const [editingService, setEditingService] = useState(null);
@@ -38,7 +40,8 @@ const ServicesTab = () => {
     const { name, value, type, checked } = e.target;
     setNewService((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "number" ? Number(value) : 
+              type === "checkbox" ? checked : value,
     }));
   };
 
@@ -68,6 +71,7 @@ const ServicesTab = () => {
       titleAr: service.titleAr,
       description: service.description,
       price: service.price,
+      price: service.stock,
       mainImage: null, // Preserve existing image URL
       additionalImages: [], // Preserve existing additional images
       category: service.category,
@@ -86,6 +90,7 @@ const ServicesTab = () => {
     formData.append("titleAr", newService.titleAr);
     formData.append("description", newService.description);
     formData.append("price", newService.price);
+    formData.append("stock", Number(newService.stock));
     formData.append("category", newService.category);
     formData.append("details", newService.details);
     formData.append("handmade", newService.handmade);
@@ -156,6 +161,7 @@ const ServicesTab = () => {
         titleAr: "",
         description: "",
         price: "",
+        stock:"",
         mainImage: null,
         additionalImages: [],
         category: categories[0],
@@ -218,6 +224,14 @@ const ServicesTab = () => {
             value={newService.price}
             onChange={handleInputChange}
             placeholder="السعر"
+            className="w-full p-2 border rounded-md"
+          />
+<input
+            type="number"
+            name="stock"
+            value={newService.stock}
+            onChange={handleInputChange}
+            placeholder="الكمية المتوفرة "
             className="w-full p-2 border rounded-md"
           />
 
@@ -380,6 +394,7 @@ const ServicesTab = () => {
                     </p>
                     <p className="text-text-secondary">{service.category}</p>
                     <p className="text-text-secondary">{service.price} JD</p>
+                    <p className="text-text-secondary">{service.stock} الكمية:</p>
                     <p className="text-text-secondary">الحجم: {service.size}</p>
                     <p className="text-text-secondary">
                       المواد: {service.materials}

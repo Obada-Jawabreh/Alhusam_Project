@@ -29,12 +29,12 @@ export const HeroSection = () => {
             اليدوية
           </p>
           <div className="flex space-x-4 justify-end">
-            <button className="bg-[#9C27B0] text-white px-6 py-3 rounded-full hover:bg-[#7B1FA2] transition-colors">
+            <Link to="/products" className="bg-[#9C27B0] text-white px-6 py-3 rounded-full hover:bg-[#7B1FA2] transition-colors">
               استكشفي المنتجات
-            </button>
-            <button className="border-2 border-[#9C27B0] text-[#9C27B0] px-6 py-3 rounded-full hover:bg-[#9C27B0] hover:text-white transition-colors">
+            </Link>
+            <Link to="/provider" className="border-2 border-[#9C27B0] text-[#9C27B0] px-6 py-3 rounded-full hover:bg-[#9C27B0] hover:text-white transition-colors">
               انضمي كمنتجة
-            </button>
+            </Link>
           </div>
         </div>
         <div className="md:w-1/2 flex justify-center">

@@ -6,22 +6,22 @@ const auth = require("../middleware/authMiddleware");
 
 // Driver application routes
 router.post(
-  "/driver", 
-  upload.single("resume"), 
+  "/driver",
+  upload.single("resume"),
   requestController.createDriverRequest
 );
 
 // Admin routes (protected)
 router.get(
-  "/all", 
-  auth, 
+  "/all",
+  auth,
   requestController.getAllRequests
 );
 
 router.patch(
-  "/:id/status", 
-  auth, 
+  "/:id/status",
+  auth,
   requestController.updateRequestStatus
 );
 
-module.exports = router; 
+module.exports = router;
