@@ -23,6 +23,7 @@ import Checkout from "./pages/checkout.jsx";
 function App() {
   return (
     <Router>
+      
       <Routes>
         {/* مسار الصفحة الرئيسية */}
         <Route path="/" element={<Home />} />

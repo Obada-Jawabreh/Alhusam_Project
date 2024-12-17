@@ -231,24 +231,25 @@ exports.getProductForProvider = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    // جلب جميع المنتجات من قاعدة البيانات
-    const products = await Product.find();
+    const products = await Product.find().populate({
+      path: 'seller',
+      select: 'name username' // Select both name and username
+    });
 
-    // إرسال الاستجابة
     res.status(200).json({
-      status: "success",
-      results: products.length,
+      status: 'success',
       data: {
-        products,
-      },
+        products
+      }
     });
   } catch (error) {
     res.status(500).json({
-      status: "error",
-      message: error.message,
+      status: 'error',
+      message: error.message
     });
   }
 };
+
 
 exports.getProductById = async (req, res) => {
   try {

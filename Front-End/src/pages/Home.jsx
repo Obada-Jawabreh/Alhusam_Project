@@ -3,10 +3,11 @@ import {
   CategoriesSection,
   FeaturedProductsSection,
   CommunitySection,
-  // NewsletterSection,
+  NewsletterSection,
   TestimonialsSection,
   AboutUsSection,
 } from "../pages/Home/about";
+import Footer from "../components/Layout/Footer";
 import NavigationBar from "../components/Layout/Navbar";
 const HomePage = () => {
   return (
@@ -14,11 +15,13 @@ const HomePage = () => {
       <NavigationBar />
       <HeroSection />
       <CategoriesSection />
-      <AboutUsSection />
+      
       <FeaturedProductsSection />
+      <AboutUsSection />
       <CommunitySection />
       {/* <NewsletterSection /> */}
       <TestimonialsSection />
+      <Footer />
     </div>
   );
 };
