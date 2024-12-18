@@ -8,7 +8,9 @@ const ClientsTab = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/orders/orders"
+          'http://localhost:5000/api/orders/orders', {
+            withCredentials: true
+          }
         );
         setOrders(response.data);
       } catch (error) {
