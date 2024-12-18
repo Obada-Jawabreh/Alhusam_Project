@@ -3,14 +3,24 @@ const Order = require("../models/order"); // استيراد نموذج الـ Or
 // الحصول على كل الطلبات
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find()
-      .populate("user", "name email") // يمكننا استخدام populate لملء البيانات المرتبطة
-      .populate("provider", "name serviceType")
-      .populate("items.product", "name price"); // Populate المنتجات في كل طلب
+    const providerId = req.user.id; // Assuming the authenticated provider's ID is in req.user.id
+
+    // Filter orders by provider ID and exclude "Waiting for admin" status
+    const orders = await Order.find({
+      provider: providerId,
+      providerStatus: { $ne: "Waiting for admin" }
+    })
+    .populate("user", "name email")
+    .populate("provider", "name serviceType")
+    .populate("items.product", "name price");
 
     res.status(200).json(orders);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching orders", error });
+    console.error("Error fetching orders:", error);
+    res.status(500).json({
+      message: "Error fetching orders",
+      error: error.message
+    });
   }
 };
 

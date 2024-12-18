@@ -103,8 +103,6 @@ router.post("/providerApplication", auth, async (req, res) => {
   }
 });
 
-
-
 router.post("/addToCart", auth, async (req, res) => {
   try {
     // User ID from authenticated middleware
@@ -149,22 +147,13 @@ router.post("/addToCart", auth, async (req, res) => {
       select: "username", // Populate the username field only
     });
 
-    if (cart) {
-      // If cart exists, check if it's already associated with a different provider
-      console.log("Existing cart provider:", cart.provider); // Debugging log
-
-      if (cart.provider && cart.provider.toString() !== newProvider.toString()) {
-        return res.status(400).json({
-          message: "You can only add items from one provider. Please clear your cart first.",
-        });
-      }
-    } else {
+    if (!cart) {
       // If no cart exists, create a new one with the provider from the first item
       cart = new Cart({
         user: userId,
         items: [],
         total: 0,
-        provider: newProvider,
+        provider: newProvider, // You can keep this if you still want to track a single provider for the cart
       });
     }
 
@@ -189,7 +178,6 @@ router.post("/addToCart", auth, async (req, res) => {
           price: item.quantity * (item.price / item.quantity), // Ensure per-item price is preserved
         });
       }
-
     }
 
     // Recalculate the total price
@@ -211,8 +199,6 @@ router.post("/addToCart", auth, async (req, res) => {
     });
   }
 });
-
-
 
 // Get user's cart
 router.get("/cart", auth, async (req, res) => {
@@ -285,7 +271,6 @@ router.delete("/cart/remove/:productId", auth, async (req, res) => {
 
 const axios = require('axios');
 
-
 router.post("/create", auth, async (req, res) => {
   try {
     const {
@@ -300,20 +285,7 @@ router.post("/create", auth, async (req, res) => {
       city,
       state,
       zipCode,
-      stripePaymentMethodId,
     } = req.body;
-
-    // Stripe payment processing
-    let stripeCharge = null;
-    if (paymentMethod === "stripe" && stripePaymentMethodId) {
-      stripeCharge = await stripe.paymentIntents.create({
-        amount: Math.round(total * 100), // Convert to cents
-        currency: "usd",
-        payment_method: stripePaymentMethodId,
-        confirm: true,
-         return_url: 'http://localhost:5000'
-      });
-    }
 
     // Ensure items array is not empty
     if (!items || items.length === 0) {
@@ -371,14 +343,12 @@ router.post("/create", auth, async (req, res) => {
     res.status(201).json({
       message: "Order created successfully",
       order: newOrder,
-      stripePaymentDetails: stripeCharge,
     });
   } catch (error) {
     console.error("Order creation error:", error);
     res.status(500).json({ message: "Order creation failed", error: error.message });
   }
 });
-
 
 router.get('/orders', auth, async (req, res) => {
   try {

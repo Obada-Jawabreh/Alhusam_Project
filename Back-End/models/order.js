@@ -59,8 +59,8 @@ const orderSchema = new Schema(
     },
     providerStatus: {
       type: String,
-      enum: ["pending", "received", "preparing", "ready"],
-      default: "pending",
+      enum: ["pending", "received", "preparing", "ready", "Waiting for admin"],
+      default: "Waiting for admin",
     },
     deliveryAddress: {
       street: String,
@@ -79,7 +79,7 @@ const orderSchema = new Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["cash", "paypal","stripe"],
+      enum: ["cash", "paypal","stripe","cliq"],
       required: true,
     },
   },

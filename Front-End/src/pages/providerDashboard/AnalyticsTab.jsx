@@ -28,7 +28,7 @@ const AnalyticsTab = () => {
     // Simulating data fetch - replace with actual API call
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/orders/orders');
+        const response = await fetch('http://localhost:5000/api/orders/order');
         if (!response.ok) {
           throw new Error('Failed to fetch order data');
         }
