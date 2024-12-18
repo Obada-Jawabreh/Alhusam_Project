@@ -80,6 +80,7 @@ exports.registerUser = async (req, res) => {
       .status(201)
       .json({ message: "User registered successfully (First Method)!" });
   } catch (error) {
+    console.error("Error details:", error);
     res
       .status(500)
       .send("Error registering user (First Method): " + error.message);
@@ -108,7 +109,7 @@ exports.getUserById = async (req, res) => {
     };
 
     res.status(200).json({ user, loggedIn: true });
-  } catch (error) { 
+  } catch (error) {
     res
       .status(500)
       .json({ message: "Error fetching user data: " + error.message });
