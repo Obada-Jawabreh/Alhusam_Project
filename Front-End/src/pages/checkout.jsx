@@ -72,9 +72,9 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden">
-        <div className="p-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6 ">
+      <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden mt-24">
+        <div className="p-6 bg-[#1565C0] text-white">
           <h1 className="text-3xl font-bold flex items-center">
             <ShoppingCart className="mr-3" /> Checkout
           </h1>
@@ -92,7 +92,7 @@ const CheckoutPage = () => {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Personal Information */}
             <div>
-              <h2 className="text-xl font-semibold mb-4 text-purple-600 flex items-center">
+              <h2 className="text-xl font-semibold mb-4 text-[#1565C0] flex items-center">
                 <User className="mr-2" /> Personal Information
               </h2>
               <div className="grid grid-cols-2 gap-4">
@@ -137,7 +137,7 @@ const CheckoutPage = () => {
 
             {/* Delivery Information */}
             <div>
-              <h2 className="text-xl font-semibold mb-4 text-purple-600 flex items-center">
+              <h2 className="text-xl font-semibold mb-4 text-[#1565C0] flex items-center">
                 <MapPin className="mr-2" /> Delivery Address
               </h2>
               <input
@@ -183,7 +183,7 @@ const CheckoutPage = () => {
 
           {/* Payment Method Section */}
           <div className="mt-6">
-            <h2 className="text-xl font-semibold mb-4 text-purple-600 flex items-center">
+            <h2 className="text-xl font-semibold mb-4 text-[#1565C0] flex items-center">
               <DollarSign className="mr-2" /> Payment Method
             </h2>
             <div className="flex space-x-6 mb-4">
@@ -195,7 +195,7 @@ const CheckoutPage = () => {
                   onChange={() => setPaymentMethod('cash')}
                   className="mr-2 hidden peer"
                 />
-                <div className="p-3 border-2 rounded-lg peer-checked:border-purple-500 peer-checked:text-purple-600 transition">
+                <div className="p-3 border-2 rounded-lg peer-checked:border-[#1565C0] peer-checked:text-[#1565C0] transition">
                   الدفع كاش
                 </div>
               </label>
@@ -207,7 +207,7 @@ const CheckoutPage = () => {
                   onChange={() => setPaymentMethod('cliq')}
                   className="mr-2 hidden peer"
                 />
-                <div className="p-3 border-2 rounded-lg peer-checked:border-purple-500 peer-checked:text-purple-600 transition">
+                <div className="p-3 border-2 rounded-lg peer-checked:border-[#1565C0] peer-checked:text-[#1565C0] transition">
                   الدفع باستخدام CliQ
                 </div>
               </label>
@@ -222,8 +222,8 @@ const CheckoutPage = () => {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4 text-purple-600 flex items-center">
+          <div className="bg-gradient-to-br from-[#E3F2FD] to-white p-6 rounded-lg">
+            <h2 className="text-2xl font-bold mb-4 text-[#1565C0] flex items-center">
               <ShoppingCart className="mr-2" /> Order Summary
             </h2>
             {cartItems.map(item => (
@@ -232,7 +232,7 @@ const CheckoutPage = () => {
                 <span>{item.price * item.quantity} دينار</span>
               </div>
             ))}
-            <div className="border-t pt-2 mt-2 text-xl font-bold text-purple-700">
+            <div className="border-t pt-2 mt-2 text-xl font-bold text-[#1565C0]">
               Total: {total} دينار
             </div>
           </div>
@@ -244,7 +244,7 @@ const CheckoutPage = () => {
             className={`w-full py-3 rounded-lg text-white font-bold transition duration-300 flex items-center justify-center ${
               loading 
                 ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
+                : 'bg-[#1565C0] hover:from-[#1565C0] hover:to-pink-600'
             }`}
           >
             {loading ? 'Processing...' : 'Place Order'}

@@ -9,4 +9,4 @@ router.post('/products/:productId/reviews', auth, reviewController.createReview)
 // جلب جميع تقييمات المنتج
 router.get('/products/:productId/reviews', reviewController.getProductReviews);
 
-module.exports = router;
+module.exports = router; 
