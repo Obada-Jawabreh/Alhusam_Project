@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Upload, User, Mail, FileText, Package, ShoppingCart, Calendar, DollarSign } from "lucide-react";
-
+import NavigationBar from "../components/Layout/Navbar";
 const API_BASE_URL = "http://localhost:5000/api/user";
 
 export default function UserProfile() {
@@ -138,14 +138,15 @@ export default function UserProfile() {
 
   return (
     <div className="min-h-screen text-black mt-12 py-10 px-4">
-      <div className="max-w-4xl mx-auto   backdrop-blur-lg shadow-2xl rounded-2xl overflow-hidden">
+      <NavigationBar />
+      <div className="max-w-4xl mx-auto   backdrop-blur-lg shadow-2xl rounded-2xl overflow-hidden mt-12">
         <div className="flex border-b border-black/20">
           <button
             onClick={() => setActiveTab("profile")}
             className={`flex-1 py-4 text-center transition-all duration-300 ${
               activeTab === "profile" 
-                ? 'bg-[#9C27B0]/20 text-[#9C27B0] border-b-2 border-[#9C27B0]'
-                : 'hover:bg-[#9C27B0]/10 text-black/70 hover:text-[#9C27B0]'
+                ? 'bg-[#1565C0]/20 text-[#1565C0] border-b-2 border-[#1565C0]'
+                : 'hover:bg-[#1565C0]/10 text-black/70 hover:text-[#1565C0]'
             }`}
           >
             Profile
@@ -154,8 +155,8 @@ export default function UserProfile() {
             onClick={() => setActiveTab("orders")}
             className={`flex-1 py-4 text-center transition-all duration-300 ${
               activeTab === "orders" 
-                ? 'bg-[#9C27B0]/20 text-[#9C27B0] border-b-2 border-[#9C27B0]'
-                : 'hover:bg-[#9C27B0]/10 text-black/70 hover:text-[#9C27B0]'
+                ? 'bg-[#1565C0]/20 text-[#1565C0] border-b-2 border-[#1565C0]'
+                : 'hover:bg-[#1565C0]/10 text-black/70 hover:text-[#1565C0]'
             }`}
           >
             My Orders
@@ -168,7 +169,7 @@ export default function UserProfile() {
               {!isEditing ? (
                 <button 
                   onClick={() => setIsEditing(true)}
-                  className="text-white bg-[#9C27B0] hover:bg-[#9C27B0]/90 px-4 py-2 rounded-full transition-all"
+                  className="text-white bg-[#1565C0] hover:bg-[#1565C0]/90 px-4 py-2 rounded-full transition-all"
                 >
                   Edit Profile
                 </button>
@@ -268,7 +269,7 @@ export default function UserProfile() {
                 <div className="flex justify-center">
                   <button 
                     type="submit" 
-                    className="bg-[#9C27B0] hover:bg-[#9C27B0]/90 text-white px-6 py-2 rounded-full transition-all"
+                    className="bg-[#1565C0] hover:bg-[#1565C0]/90 text-white px-6 py-2 rounded-full transition-all"
                   >
                     Save Changes
                   </button>

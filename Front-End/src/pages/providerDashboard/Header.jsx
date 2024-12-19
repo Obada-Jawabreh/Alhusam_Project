@@ -115,7 +115,7 @@ const TherapistHeader = ({ user, onUpdateProfile }) => {
   };
 
   return (
-    <div className="relative bg-gradient-to-r from-[#9C27B0] to-[#9C27B0] text-[#EEF6F9] rounded-2xl shadow-2xl overflow-hidden p-6">
+    <div className="relative bg-gradient-to-r from-[#1565C0] to-[#1565C0] text-[#EEF6F9] rounded-2xl shadow-2xl overflow-hidden p-6">
       <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
         {/* Profile Picture Section */}
         <div className="relative group">
@@ -138,7 +138,7 @@ const TherapistHeader = ({ user, onUpdateProfile }) => {
               className="hidden"
               onChange={handleProfilePictureChange}
             />
-            <Camera className="w-10 h-10 text-white bg-[#9C27B0] rounded-full p-2 shadow-md" />
+            <Camera className="w-10 h-10 text-white bg-[#1565C0] rounded-full p-2 shadow-md" />
           </label>
         </div>
 
@@ -163,7 +163,7 @@ const TherapistHeader = ({ user, onUpdateProfile }) => {
           <Button
             variant="secondary"
             onClick={() => navigate("/")}
-            className="bg-[#EEF6F9] text-[#9C27B0] hover:bg-[#f3adff] hover:text-[#EEF6F9]"
+            className="bg-[#EEF6F9] text-[#1565C0] hover:bg-[#f3adff] hover:text-[#EEF6F9]"
           >
             Profile
           </Button>
@@ -198,7 +198,7 @@ const TherapistHeader = ({ user, onUpdateProfile }) => {
             </div>
             <Button
               onClick={handleSaveChanges}
-              className="w-full bg-[#9C27B0] hover:bg-purple-700"
+              className="w-full bg-[#1565C0] hover:bg-purple-700"
             >
               Save Changes
             </Button>

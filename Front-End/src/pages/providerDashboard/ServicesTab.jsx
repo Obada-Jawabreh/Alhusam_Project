@@ -323,7 +323,7 @@ const ServicesTab = () => {
               />
               <label
                 htmlFor="additional-images"
-                className="flex items-center cursor-pointer bg-secondary text-primary p-2 rounded-md"
+                className="flex items-center cursor-pointer bg-[#1565C0] text-white p-2 rounded-md"
               >
                 <ImagePlus className="ml-2" /> رفع الصور الإضافية (0-3)
               </label>

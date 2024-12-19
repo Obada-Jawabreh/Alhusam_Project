@@ -7,7 +7,7 @@ import {
   TestimonialsSection,
   AboutUsSection,
 } from "../pages/Home/about";
-import Footer from "../components/Layout/Footer";
+// import Footer from "../components/Layout/Footer";
 import NavigationBar from "../components/Layout/Navbar";
 const HomePage = () => {
   return (
@@ -21,7 +21,7 @@ const HomePage = () => {
       <CommunitySection />
       {/* <NewsletterSection /> */}
       <TestimonialsSection />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
