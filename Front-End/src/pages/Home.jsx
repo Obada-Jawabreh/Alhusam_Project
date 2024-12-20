@@ -7,21 +7,23 @@ import {
   TestimonialsSection,
   AboutUsSection,
 } from "../pages/Home/about";
-// import Footer from "../components/Layout/Footer";
+import VisitorCounter from "../components/VisitorCount";
+import Footer from "../components/Layout/Footer";
 import NavigationBar from "../components/Layout/Navbar";
 const HomePage = () => {
   return (
     <div className="font-cairo">
       <NavigationBar />
       <HeroSection />
+       <VisitorCounter />
       <CategoriesSection />
-      
+        
       <FeaturedProductsSection />
       <AboutUsSection />
       <CommunitySection />
       {/* <NewsletterSection /> */}
       <TestimonialsSection />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

@@ -46,6 +46,8 @@ const contactRoutes = require("./Routes/contactRoute");
 const testimonialRoutes = require("./Routes/testimonialRoute");
 const requestRoutes = require("./Routes/requestRoute");
 const review = require("./Routes/ReviewRoutes");
+const visitorRoutes = require('./Routes/visitorRoute');
+
 
 
 app.use(bodyParser.json());
@@ -70,7 +72,7 @@ app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/review", review);
 app.use('/api/orders', orderRoutes);
-
+app.use('/api/visitors', visitorRoutes);
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

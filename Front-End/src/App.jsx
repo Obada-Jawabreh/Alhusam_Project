@@ -18,7 +18,7 @@ import DriverApplication from "./pages/DriverApplication";
 import Cart from "./pages/cart.jsx";
 import Checkout from "./pages/checkout.jsx";
 // import TestimonialManagement from "./pages/Testimonials/TestimonialManagement";
-
+import VisitorCounter from "./components/VisitorCount.jsx";
 
 function App() {
   return (
@@ -44,8 +44,8 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/provider" element={<ProviderApplicationForm />} />
-
-        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/visitor" element={<VisitorCounter />} />
+        <Route path="/contact" element={<ContactUs />} /> 
         {/* <Route path="/testimonials" element={<TestimonialManagement />} /> */}
 
         <Route path="/driver-application" element={<DriverApplication />} />
