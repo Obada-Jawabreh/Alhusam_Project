@@ -22,7 +22,7 @@ const ProviderApplicationForm = () => {
     { value: 'مصنوعات يدوية', icon: Anchor },
     { value: 'ملابس', icon: Shirt },
     { value: 'طعام', icon: Utensils },
-    { value: 'إكسسوارات', icon: ShoppingBag },
+    { value: 'اكسسوارات', icon: ShoppingBag },
     { value: 'أخرى', icon: MoreHorizontal }
   ];
 

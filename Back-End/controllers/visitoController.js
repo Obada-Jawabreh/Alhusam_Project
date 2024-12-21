@@ -1,12 +1,13 @@
+
 const Visitor = require('../models/visitor');
 
 // تحديث عدد الزوار
 const updateVisitorCount = async (req, res) => {
     try {
         const { pageName } = req.body;
-        
+
         let visitor = await Visitor.findOne({ pageName });
-        
+
         if (!visitor) {
             visitor = new Visitor({
                 pageName,
@@ -16,18 +17,18 @@ const updateVisitorCount = async (req, res) => {
             visitor.count += 1;
             visitor.lastVisited = new Date();
         }
-        
+
         await visitor.save();
-        res.json({ 
+        res.json({
             success: true,
-            count: visitor.count 
+            count: visitor.count
         });
-        
+
     } catch (error) {
         console.error('Error updating visitor count:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            error: 'Error updating visitor count' 
+            error: 'Error updating visitor count'
         });
     }
 };
@@ -37,16 +38,16 @@ const getVisitorCount = async (req, res) => {
     try {
         const { pageName } = req.params;
         const visitor = await Visitor.findOne({ pageName });
-        
-        res.json({ 
+
+        res.json({
             success: true,
-            count: visitor ? visitor.count : 0 
+            count: visitor ? visitor.count : 0
         });
     } catch (error) {
         console.error('Error getting visitor count:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            error: 'Error getting visitor count' 
+            error: 'Error getting visitor count'
         });
     }
 };
@@ -55,15 +56,15 @@ const getVisitorCount = async (req, res) => {
 const getAllVisitorStats = async (req, res) => {
     try {
         const stats = await Visitor.find({});
-        res.json({ 
+        res.json({
             success: true,
-            stats 
+            stats
         });
     } catch (error) {
         console.error('Error getting visitor stats:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            error: 'Error getting visitor statistics' 
+            error: 'Error getting visitor statistics'
         });
     }
 };
@@ -81,8 +82,8 @@ module.exports = {
 
 // // الحصول على IP العميل
 // const getClientIP = (req) => {
-//     return req.headers['x-forwarded-for'] || 
-//            req.connection.remoteAddress || 
+//     return req.headers['x-forwarded-for'] ||
+//            req.connection.remoteAddress ||
 //            req.socket.remoteAddress;
 // };
 
@@ -91,7 +92,7 @@ module.exports = {
 //     try {
 //         const { pageName } = req.body;
 //         console.log('Received request body:', req.body); // Add this debug log
-        
+
 //         if (!pageName) {
 //             return res.status(400).json({
 //                 success: false,
