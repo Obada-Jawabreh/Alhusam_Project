@@ -167,22 +167,22 @@ router.post("/addToCart", auth, async (req, res) => {
         // Update the quantity by adding the new quantity to the existing quantity
         cart.items[existingItemIndex].quantity += item.quantity;
 
-        // Preserve the original per-item price
-        cart.items[existingItemIndex].price =
-          cart.items[existingItemIndex].quantity * (item.price / item.quantity);
+        // Preserve the original per-item price and recalculate the total price for this item
+        cart.items[existingItemIndex].price = item.price;
       } else {
         // Add the new product to the cart with the correct per-item price
         cart.items.push({
           product: item.product,
           quantity: item.quantity,
-          price: item.quantity * (item.price / item.quantity), // Ensure per-item price is preserved
+          price: item.price,// Ensure per-item price is preserved
         });
       }
     }
 
     // Recalculate the total price
-    cart.total = cart.items.reduce((sum, item) => sum + item.price, 0);
-
+    // cart.total = cart.items.reduce((sum, item) => sum + item.price, 0);
+// Recalculate the total price
+cart.total = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     // Save the cart data
     await cart.save();
 
@@ -271,6 +271,7 @@ router.delete("/cart/remove/:productId", auth, async (req, res) => {
 
 const axios = require('axios');
 
+
 router.post("/create", auth, async (req, res) => {
   try {
     const {
@@ -328,7 +329,8 @@ router.post("/create", auth, async (req, res) => {
       },
       paymentMethod,
       platformProfit: total * 0.1, // 10% platform profit
-      providerProfit: total * 0.9, // 90% to provider
+      providerProfit: total * 0.9,
+      providerStatus: "Waiting for admin", // 90% to provider
     });
 
     console.log("Order items:", items);

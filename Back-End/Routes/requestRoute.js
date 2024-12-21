@@ -5,8 +5,7 @@ const requestController = require("../controllers/requestController");
 const auth = require("../middleware/authMiddleware");
 
 // Driver application routes
-router.post(
-  "/driver",
+router.post(  "/driver",auth,
   upload.single("resume"),
   requestController.createDriverRequest
 );

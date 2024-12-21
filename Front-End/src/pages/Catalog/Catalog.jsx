@@ -3,8 +3,8 @@
 // import { Link } from 'react-router-dom';
 // import axios from 'axios';
 // import { 
-//   Home, Shirt, Coffee, Scissors, Headphones, 
-//   Heart, ShoppingCart, Star, Flower, PaletteIcon, 
+//   Home, Shirt, Coffee, Scissors, Headphones,
+//   Heart, ShoppingCart, Star, Flower, PaletteIcon,
 //   ScissorsIcon, EyeIcon 
 // } from 'lucide-react';
 
@@ -16,7 +16,7 @@
 //     <div className="bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all hover:scale-105 group">
 //       <div className="relative">
 //         <img 
-//           src={product.mainImage || "/api/placeholder/300/400"} 
+//           src={product.mainImage || "/api/placeholder/300/400"}
 //           alt={product.titleAr} 
 //           className="w-full h-72 object-cover transition-transform group-hover:scale-110"
 //         />
@@ -166,7 +166,7 @@ const ProductCard = ({ product }) => {
     <div className="bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all hover:scale-105 group">
       <div className="relative">
         <img 
-          src={product.mainImage || "/api/placeholder/300/400"} 
+          src={product.mainImage || "/api/placeholder/300/400"}
           alt={product.titleAr} 
           className="w-full h-72 object-cover transition-transform group-hover:scale-110"
         />
