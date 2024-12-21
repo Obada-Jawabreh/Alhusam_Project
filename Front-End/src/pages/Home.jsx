@@ -7,6 +7,7 @@ import {
   TestimonialsSection,
   AboutUsSection,
 } from "../pages/Home/about";
+import VisitorCounter from "../components/VisitorCount";
 import Footer from "../components/Layout/Footer";
 import NavigationBar from "../components/Layout/Navbar";
 const HomePage = () => {
@@ -14,8 +15,9 @@ const HomePage = () => {
     <div className="font-cairo">
       <NavigationBar />
       <HeroSection />
+       <VisitorCounter />
       <CategoriesSection />
-      
+        
       <FeaturedProductsSection />
       <AboutUsSection />
       <CommunitySection />

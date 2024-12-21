@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Trash2, Plus, Minus } from "lucide-react";
 import { Link } from "react-router-dom";
-import NavigationBar from "../components/Layout/Navbar";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -225,8 +224,8 @@ export default function Cart() {
               </div>
               <Link
                 to="/checkout"
-                className="w-full bg-purple-600 text-white py-4 rounded-xl
-                            hover:bg-purple-700 transition-colors duration-300 
+                className="w-full bg-[#1E88E5]  text-white py-4 rounded-xl
+                            hover:bg-[#1565C0]  transition-colors duration-300 
                             shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 <span className="text-xl font-bold">المتابعة للدفع</span>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Upload, User, Mail, FileText, Package, ShoppingCart, Calendar, DollarSign, Loader2, AlertTriangle } from "lucide-react";
-
+ 
+import { Upload, User, Mail, FileText, Package, ShoppingCart, Calendar, DollarSign } from "lucide-react";
+import NavigationBar from "../components/Layout/Navbar";
+ 
 const API_BASE_URL = "http://localhost:5000/api/user";
 
 export default function UserProfile() {
@@ -170,14 +172,17 @@ export default function UserProfile() {
 
   return (
     <div className="min-h-screen text-black mt-12 py-10 px-4">
-      <div className="max-w-4xl mx-auto backdrop-blur-lg shadow-2xl rounded-2xl overflow-hidden">
+ 
+      <NavigationBar />
+      <div className="max-w-4xl mx-auto   backdrop-blur-lg shadow-2xl rounded-2xl overflow-hidden mt-12">
+ 
         <div className="flex border-b border-black/20">
           <button
             onClick={() => setActiveTab("profile")}
             className={`flex-1 py-4 text-center transition-all duration-300 ${
               activeTab === "profile" 
-                ? 'bg-[#9C27B0]/20 text-[#9C27B0] border-b-2 border-[#9C27B0]'
-                : 'hover:bg-[#9C27B0]/10 text-black/70 hover:text-[#9C27B0]'
+                ? 'bg-[#1565C0]/20 text-[#1565C0] border-b-2 border-[#1565C0]'
+                : 'hover:bg-[#1565C0]/10 text-black/70 hover:text-[#1565C0]'
             }`}
           >
             Profile
@@ -186,8 +191,8 @@ export default function UserProfile() {
             onClick={() => setActiveTab("orders")}
             className={`flex-1 py-4 text-center transition-all duration-300 ${
               activeTab === "orders" 
-                ? 'bg-[#9C27B0]/20 text-[#9C27B0] border-b-2 border-[#9C27B0]'
-                : 'hover:bg-[#9C27B0]/10 text-black/70 hover:text-[#9C27B0]'
+                ? 'bg-[#1565C0]/20 text-[#1565C0] border-b-2 border-[#1565C0]'
+                : 'hover:bg-[#1565C0]/10 text-black/70 hover:text-[#1565C0]'
             }`}
           >
             My Orders
@@ -201,28 +206,26 @@ export default function UserProfile() {
 
         {/* Profile Tab */}
         {activeTab === "profile" && (
-          <>
-            {isLoadingProfile ? (
-              <LoadingSpinner />
-            ) : (
-              <div className="p-8 relative">
-                <div className="absolute top-4 right-4">
-                  {!isEditing ? (
-                    <button 
-                      onClick={() => setIsEditing(true)}
-                      className="text-white bg-[#9C27B0] hover:bg-[#9C27B0]/90 px-4 py-2 rounded-full transition-all"
-                    >
-                      Edit Profile
-                    </button>
-                  ) : (
-                    <button 
-                      onClick={() => setIsEditing(false)}
-                      className="text-white bg-red-500 hover:bg-red-500/90 px-4 py-2 rounded-full transition-all"
-                    >
-                      Cancel
-                    </button>
-                  )}
-                </div>
+ 
+          <div className="p-8 relative">
+            <div className="absolute top-4 right-4">
+              {!isEditing ? (
+                <button 
+                  onClick={() => setIsEditing(true)}
+                  className="text-white bg-[#1565C0] hover:bg-[#1565C0]/90 px-4 py-2 rounded-full transition-all"
+                >
+                  Edit Profile
+                </button>
+              ) : (
+                <button 
+                  onClick={() => setIsEditing(false)}
+                  className="text-white bg-red-500 hover:bg-red-500/90 px-4 py-2 rounded-full transition-all"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
+ 
 
                 <h1 className="text-3xl font-bold text-black mb-6 text-center">User Profile</h1>
                 
@@ -284,6 +287,70 @@ export default function UserProfile() {
                   </form>
                 )}
               </div>
+ 
+              
+              {!isEditing && (
+                <div className="text-center">
+                  <h2 className="text-xl font-semibold text-black">{user.username}</h2>
+                  <p className="text-black/70">{user.email}</p>
+                </div>
+              )}
+            </div>
+
+            {isEditing && (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="username" className="block text-black/80 mb-2">Username</label>
+                  <input 
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    className="w-full bg-black/10 border border-black/20 rounded-lg px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-black/30"
+                    placeholder="Enter your username"
+                  />
+                  {errors.username && <p className="text-red-300 text-sm mt-1">{errors.username}</p>}
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-black/80 mb-2">Email</label>
+                  <input 
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full bg-black/10 border border-black/20 rounded-lg px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-black/30"
+                    placeholder="Enter your email"
+                  />
+                  {errors.email && <p className="text-red-300 text-sm mt-1">{errors.email}</p>}
+                </div>
+
+                <div>
+                  <label htmlFor="bio" className="block text-black/80 mb-2">Bio</label>
+                  <textarea 
+                    id="bio"
+                    name="bio"
+                    value={formData.bio}
+                    onChange={handleChange}
+                    className="w-full bg-black/10 border border-black/20 rounded-lg px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-black/30"
+                    placeholder="Tell us about yourself"
+                    rows={4}
+                  />
+                  {errors.bio && <p className="text-red-300 text-sm mt-1">{errors.bio}</p>}
+                </div>
+
+                <div className="flex justify-center">
+                  <button 
+                    type="submit" 
+                    className="bg-[#1565C0] hover:bg-[#1565C0]/90 text-white px-6 py-2 rounded-full transition-all"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+
             )}
           </>
         )}

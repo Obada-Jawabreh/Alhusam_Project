@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Star, Send, Phone, Mail, MapPin } from 'lucide-react';
 import NavigationBar from '../../components/Layout/Navbar';
 
-const inputClasses = "w-full px-3 py-2 mt-1 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#9C27B0] focus:border-transparent transition duration-200 text-right";
-const buttonClasses = "w-full bg-[#9C27B0] text-white px-4 py-2 rounded-md hover:bg-[#7B1FA2] focus:outline-none focus:ring-2 focus:ring-[#9C27B0] focus:ring-offset-2 transition duration-200";
+const inputClasses = "w-full px-3 py-2 mt-1 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0D47A1] focus:border-transparent transition duration-200 text-right";
+const buttonClasses = "w-full bg-[#1E88E5] text-white px-4 py-2 rounded-md hover:bg-[#1565C0] focus:outline-none focus:ring-2 focus:ring-[#0D47A1] focus:ring-offset-2 transition duration-200";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -58,10 +58,10 @@ const ContactUs = () => {
   return (
     <>
       <NavigationBar />
-      <div className="bg-[#F3E5F5] min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-gradient-to-br from-[#E3F2FD] to-white min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-extrabold text-[#4A4A4A] sm:text-5xl md:text-6xl">
+            <h1 className="text-4xl font-extrabold text-[#1565C0] sm:text-5xl md:text-6xl">
               تواصل معنا
             </h1>
             <p className="mt-3 max-w-md mx-auto text-base text-[#757575] sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
@@ -148,7 +148,7 @@ const ContactUs = () => {
                       name="isTestimonial"
                       checked={formData.isTestimonial}
                       onChange={handleChange}
-                      className="rounded text-[#9C27B0] focus:ring-[#9C27B0] h-4 w-4 ml-2"
+                      className="rounded text-[#0D47A1] focus:ring-[#0D47A1] h-4 w-4 ml-2"
                     />
                   </label>
                 </div>
@@ -181,26 +181,26 @@ const ContactUs = () => {
 
             <div className="w-full lg:w-1/3 space-y-8">
               <div className="bg-white shadow-xl rounded-lg p-6 space-y-6">
-                <h2 className="text-2xl font-bold text-[#4A4A4A] text-right">معلومات التواصل</h2>
+                <h2 className="text-2xl font-bold text-[#1565C0] text-right">معلومات التواصل</h2>
                 <div className="flex items-center justify-end space-x-3 text-gray-700">
                   <span>+962 7 9999 9999</span>
-                  <Phone className="w-5 h-5 text-[#9C27B0]" />
+                  <Phone className="w-5 h-5 text-[#0D47A1]" />
                 </div>
                 <div className="flex items-center justify-end space-x-3 text-gray-700">
                   <span>support@bazaar.com</span>
-                  <Mail className="w-5 h-5 text-[#9C27B0]" />
+                  <Mail className="w-5 h-5 text-[#0D47A1]" />
                 </div>
                 <div className="flex items-start justify-end space-x-3 text-gray-700">
                   <span>عمان، الأردن</span>
-                  <MapPin className="w-5 h-5 text-[#9C27B0] mt-1" />
+                  <MapPin className="w-5 h-5 text-[#0D47A1] mt-1" />
                 </div>
               </div>
               
-              <img 
+              {/* <img 
                 className="w-full rounded-lg shadow-lg" 
-                src="/images/contact.jpg" 
+                src="" 
                 alt="تواصل معنا" 
-              />
+              /> */}
             </div>
           </div>
         </div>

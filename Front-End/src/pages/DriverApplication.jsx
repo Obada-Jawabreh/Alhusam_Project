@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { Upload, User, Mail, Phone, FileText } from 'lucide-react';
-
+import NavigationBar from '../components/Layout/Navbar';
 const DriverApplication = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -100,14 +100,15 @@ const DriverApplication = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#9C27B0] to-[#7B1FA2] shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12 mt-8">
+      <NavigationBar />
+      <div className="relative py-3 sm:max-w-xl sm:mx-auto mt-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1E88E5] to-[#64B5F6] shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-md mx-auto">
             <div className="divide-y divide-gray-200">
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                <h2 className="text-3xl font-extrabold text-center text-[#6A1B9A] mb-8">
+                <h2 className="text-3xl font-extrabold text-center text-[#1565C0] mb-8">
                   طلب انضمام كسائق توصيل
                 </h2>
 
@@ -197,7 +198,7 @@ const DriverApplication = () => {
                       onClick={() => fileInputRef.current.click()}
                       className="flex items-center justify-center w-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-4 hover:bg-gray-100 transition-colors"
                     >
-                      <FileText className="mr-2 text-[#9C27B0]" />
+                      <FileText className="mr-2 text-[#1565C0]" />
                       <span className="text-gray-600">
                         {formData.resume ? formData.resume.name : 'رفع الوثائق (رخصة القيادة، تأمين المركبة)'}
                       </span>
@@ -211,7 +212,8 @@ const DriverApplication = () => {
                     className={`w-full py-3 rounded-lg text-white font-semibold transition-colors ${
                       isSubmitting 
                         ? 'bg-[#CE93D8] cursor-not-allowed' 
-                        : 'bg-[#9C27B0] hover:bg-[#7B1FA2]'
+                        : ' bg-[#1E88E5] hover:bg-[#1565C0]'
+                     
                     }`}
                   >
                     {isSubmitting ? 'جاري الإرسال...' : 'تقديم الطلب'}

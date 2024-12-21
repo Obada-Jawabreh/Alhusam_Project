@@ -71,32 +71,63 @@ exports.createReview = async (req, res) => {
   }
 };
 
+// exports.getProductReviews = async (req, res) => {
+//   try {
+//     const { productId } = req.params;
+
+//     // Find product and populate user details in reviews
+//     const product = await Product.findById(productId)
+//       .populate('reviews.user', 'username'); // Adjust based on your User model
+
+//     if (!product) {
+//       return res.status(404).json({
+//         status: 'error',
+//         message: 'المنتج غير موجود'
+//       });
+//     }
+
+//     res.status(200).json({
+//       status: 'success',
+//       results: product.reviews.length,
+//       reviews: product.reviews
+//     });
+//   } catch (error) {
+//     console.error('خطأ في جلب التقييمات:', error);
+//     res.status(500).json({
+//       status: 'error',
+//       message: 'حدث خطأ أثناء جلب التقييمات',
+//       error: error.message
+//     });
+//   }
+// };
 exports.getProductReviews = async (req, res) => {
   try {
     const { productId } = req.params;
 
-    // Find product and populate user details in reviews
-    const product = await Product.findById(productId)
-      .populate('reviews.user', 'username'); // Adjust based on your User model
+    // Find the product and populate user details in reviews
+    const product = await Product.findById(productId).populate(
+      "reviews.user",
+      "username" // الحقل الذي يحتوي على اسم المستخدم في نموذج User
+    );
 
     if (!product) {
       return res.status(404).json({
-        status: 'error',
-        message: 'المنتج غير موجود'
+        status: "error",
+        message: "المنتج غير موجود",
       });
     }
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       results: product.reviews.length,
-      reviews: product.reviews
+      reviews: product.reviews,
     });
   } catch (error) {
-    console.error('خطأ في جلب التقييمات:', error);
+    console.error("خطأ في جلب التقييمات:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'حدث خطأ أثناء جلب التقييمات',
-      error: error.message
+      status: "error",
+      message: "حدث خطأ أثناء جلب التقييمات",
+      error: error.message,
     });
   }
 };

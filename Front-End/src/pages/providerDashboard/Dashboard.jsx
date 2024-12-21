@@ -14,6 +14,7 @@ import ClientsTab from "./ClientsTab";
 import AnalyticsTab from "./AnalyticsTab";
 import { fetchUser } from "../../redux/users/userThunk";
 import { useDispatch, useSelector } from "react-redux";
+import NavigationBar from "../../components/Layout/Navbar";
 // import AddData from "../../../Components/Hooks/customHooks/postData";
 // import useFetchData from "./../../../Components/Hooks/customHooks/get";
 
@@ -56,10 +57,12 @@ const TherapistDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#prime-white]">
-      <div className="container mx-auto p-6 space-y-6">
+      
+      <div className="container mx-auto p-6 space-y-6 mt-24">
         <Header user={user} />
 
         <div className="bg-white rounded-lg shadow-md p-2 flex space-x-2 overflow-x-auto">
+          
           {Object.keys(tabComponents).map((tab) => {
             const Icon = tabIcons[tab];
             return (
