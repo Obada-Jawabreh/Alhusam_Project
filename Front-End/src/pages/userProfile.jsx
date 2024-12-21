@@ -1,14 +1,15 @@
- 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+ 
 import { Upload, User, Mail, FileText, Package, ShoppingCart, Calendar, DollarSign } from "lucide-react";
 import NavigationBar from "../components/Layout/Navbar";
+ 
 const API_BASE_URL = "http://localhost:5000/api/user";
 
 export default function UserProfile() {
   const [user, setUser] = useState({});
   const [orders, setOrders] = useState([]);
-  const [formData, setFormData] = useState({ 
+  const [formData, setFormData] = useState({
     username: "",
     email: "",
     bio: "",
@@ -17,10 +18,16 @@ export default function UserProfile() {
   const [errors, setErrors] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
+  
+  // New loading state variables
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+  const [isLoadingOrders, setIsLoadingOrders] = useState(true);
+  const [loadingError, setLoadingError] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        setIsLoadingProfile(true);
         const response = await axios.get(`${API_BASE_URL}/userprofile`, {
           withCredentials: true,
         });
@@ -34,17 +41,24 @@ export default function UserProfile() {
         });
       } catch (error) {
         console.error("Error fetching profile:", error);
+        setLoadingError("Unable to load profile. Please try again later.");
+      } finally {
+        setIsLoadingProfile(false);
       }
     };
 
     const fetchOrders = async () => {
       try {
+        setIsLoadingOrders(true);
         const response = await axios.get(`${API_BASE_URL}/orders`, {
           withCredentials: true,
         });
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
+        setLoadingError("Unable to load orders. Please try again later.");
+      } finally {
+        setIsLoadingOrders(false);
       }
     };
 
@@ -136,10 +150,32 @@ export default function UserProfile() {
     );
   };
 
+  // Loading Spinner Component
+  const LoadingSpinner = () => (
+    <div className="flex justify-center items-center h-full py-10">
+      <Loader2 size={48} className="animate-spin text-[#9C27B0]" />
+      <span className="ml-2 text-black/70">Loading...</span>
+    </div>
+  );
+
+  // Error Message Component
+  const ErrorMessage = ({ message }) => (
+    <div className="flex justify-center items-center h-full py-10">
+      <div className="text-center">
+        <div className="text-red-500 mb-2">
+          <AlertTriangle size={48} className="mx-auto" />
+        </div>
+        <p className="text-black/70">{message}</p>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen text-black mt-12 py-10 px-4">
+ 
       <NavigationBar />
       <div className="max-w-4xl mx-auto   backdrop-blur-lg shadow-2xl rounded-2xl overflow-hidden mt-12">
+ 
         <div className="flex border-b border-black/20">
           <button
             onClick={() => setActiveTab("profile")}
@@ -163,7 +199,14 @@ export default function UserProfile() {
           </button>
         </div>
 
+        {/* Error Handling */}
+        {loadingError && (
+          <ErrorMessage message={loadingError} />
+        )}
+
+        {/* Profile Tab */}
         {activeTab === "profile" && (
+ 
           <div className="p-8 relative">
             <div className="absolute top-4 right-4">
               {!isEditing ? (
@@ -182,37 +225,69 @@ export default function UserProfile() {
                 </button>
               )}
             </div>
+ 
 
-            <h1 className="text-3xl font-bold text-black mb-6 text-center">User Profile</h1>
-            
-            <div className="flex flex-col items-center space-y-4 mb-8">
-              <div className="relative group">
-                {formData.profilePicture ? (
-                  <img
-                    src={formData.profilePicture}
-                    alt="Profile"
-                    className="w-32 h-32 rounded-full border-4 border-black/30 object-cover shadow-lg group-hover:opacity-75 transition-opacity"
-                  />
-                ) : (
-                  <div className="w-32 h-32 flex items-center justify-center rounded-full bg-black/20 text-black">
-                    <User size={48} />
+                <h1 className="text-3xl font-bold text-black mb-6 text-center">User Profile</h1>
+                
+                <div className="flex flex-col items-center space-y-4 mb-8">
+                  <div className="relative group">
+                    {formData.profilePicture ? (
+                      <img
+                        src={formData.profilePicture}
+                        alt="Profile"
+                        className="w-32 h-32 rounded-full border-4 border-black/30 object-cover shadow-lg group-hover:opacity-75 transition-opacity"
+                      />
+                    ) : (
+                      <div className="w-32 h-32 flex items-center justify-center rounded-full bg-black/20 text-black">
+                        <User size={48} />
+                      </div>
+                    )}
+
+                    {isEditing && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <label className="cursor-pointer">
+                          <Upload size={24} color="black" />
+                          <input 
+                            type="file" 
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                    )}
                   </div>
-                )}
+                  
+                  {!isEditing && (
+                    <div className="text-center">
+                      <h2 className="text-xl font-semibold text-black">{user.username}</h2>
+                      <p className="text-black/70">{user.email}</p>
+                    </div>
+                  )}
+                </div>
 
                 {isEditing && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                    <label className="cursor-pointer">
-                      <Upload size={24} color="black" />
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Existing form fields remain the same */}
+                    <div>
+                      <label htmlFor="username" className="block text-black/80 mb-2">Username</label>
                       <input 
-                        type="file" 
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="hidden"
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        className="w-full bg-black/10 border border-black/20 rounded-lg px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-black/30"
+                        placeholder="Enter your username"
                       />
-                    </label>
-                  </div>
+                      {errors.username && <p className="text-red-300 text-sm mt-1">{errors.username}</p>}
+                    </div>
+
+                    {/* Rest of the form fields */}
+                  </form>
                 )}
               </div>
+ 
               
               {!isEditing && (
                 <div className="text-center">
@@ -275,61 +350,69 @@ export default function UserProfile() {
                   </button>
                 </div>
               </form>
+
             )}
-          </div>
+          </>
         )}
 
+        {/* Orders Tab */}
         {activeTab === "orders" && (
-          <div className="p-8">
-            <h2 className="text-2xl font-bold text-black mb-6">My Orders</h2>
-            {orders.length === 0 ? (
-              <p className="text-black/70 text-center">No orders found</p>
+          <>
+            {isLoadingOrders ? (
+              <LoadingSpinner />
             ) : (
-              <div className="space-y-4">
-                {orders.map(order => (
-                  <div 
-                    key={order._id} 
-                    className="bg-black/10 border border-black/20 rounded-lg shadow-sm p-6 hover:bg-black/20 transition-all"
-                  >
-                    <div className="flex justify-between items-center mb-4">
-                      <div className="flex items-center space-x-2">
-                        <Package size={20} className="text-black" />
-                        <h3 className="font-semibold text-black">Order #{order._id.slice(-6)}</h3>
-                      </div>
-                      {renderOrderStatus(order.driverStatus)}
-                    </div>
+              <div className="p-8">
+                <h2 className="text-2xl font-bold text-black mb-6">My Orders</h2>
+                {orders.length === 0 ? (
+                  <p className="text-black/70 text-center">No orders found</p>
+                ) : (
+                  <div className="space-y-4">
+                    {orders.map(order => (
+                      <div 
+                        key={order._id} 
+                        className="bg-black/10 border border-black/20 rounded-lg shadow-sm p-6 hover:bg-black/20 transition-all"
+                      >
+                        <div className="flex justify-between items-center mb-4">
+                          <div className="flex items-center space-x-2">
+                            <Package size={20} className="text-black" />
+                            <h3 className="font-semibold text-black">Order #{order._id.slice(-6)}</h3>
+                          </div>
+                          {renderOrderStatus(order.driverStatus)}
+                        </div>
 
-                    <div className="grid grid-cols-2 gap-4 text-sm text-black/80">
-                      <div>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <ShoppingCart size={16} className="text-black/70" />
-                          <span>Total Items: {order.items.length}</span>
-                        </div>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <DollarSign size={16} className="text-black/70" />
-                          <span>Total: ${order.total.toFixed(2)}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Calendar size={16} className="text-black/70" />
-                          <span>{new Date(order.createdAt).toLocaleDateString()}</span>
-                        </div>
-                      </div>
+                        <div className="grid grid-cols-2 gap-4 text-sm text-black/80">
+                          <div>
+                            <div className="flex items-center space-x-2 mb-2">
+                              <ShoppingCart size={16} className="text-black/70" />
+                              <span>Total Items: {order.items.length}</span>
+                            </div>
+                            <div className="flex items-center space-x-2 mb-2">
+                              <DollarSign size={16} className="text-black/70" />
+                              <span>Total: ${order.total.toFixed(2)}</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Calendar size={16} className="text-black/70" />
+                              <span>{new Date(order.createdAt).toLocaleDateString()}</span>
+                            </div>
+                          </div>
 
-                      <div>
-                        <h4 className="font-medium mb-2 text-black">Delivery Address</h4>
-                        <p className="text-black/70">
-                          {order.deliveryAddress.street}, 
-                          {order.deliveryAddress.city}, 
-                          {order.deliveryAddress.state} 
-                          {order.deliveryAddress.zipCode}
-                        </p>
+                          <div>
+                            <h4 className="font-medium mb-2 text-black">Delivery Address</h4>
+                            <p className="text-black/70">
+                              {order.deliveryAddress.street}, 
+                              {order.deliveryAddress.city},
+                              {order.deliveryAddress.state} 
+                              {order.deliveryAddress.zipCode}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
             )}
-          </div>
+          </>
         )}
       </div>
     </div>

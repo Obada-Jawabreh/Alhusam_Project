@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import { ChevronLeft, ChevronRight, Star, ShoppingBasket } from 'lucide-react';
 import { QuoteIcon } from 'lucide-react';
-import {   
+ import {
   Flower,
   PaletteIcon,
   ScissorsIcon,
@@ -13,7 +13,7 @@ import {
   StarIcon,
   Target,
   BookOpen,
-  Globe, 
+  Globe,
 } from "lucide-react";
 
 export const HeroSection = () => {
@@ -67,29 +67,34 @@ export const HeroSection = () => {
           منصة متخصصة لدعم الإبداع النسائي، نجمع بين الموهبة والفن والأعمال
           اليدوية
           </p>
-          <div className="flex space-x-4 justify-end">
-            <motion.button 
-              className={`
-                text-white px-6 py-3 rounded-full hover:opacity-90 transition-colors 
-                ${currentColorScheme.buttons.primary}
-              `}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              استكشفي المنتجات
-            </motion.button>
-            <motion.button 
-              className={`
-                hover:bg-opacity-90 px-6 py-3 rounded-full transition-colors 
-                ${currentColorScheme.buttons.secondary} 
-                hover:text-white
-              `}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              انضمي كمبدعة
-            </motion.button>
-          </div>
+         
+<div className="flex space-x-4 justify-end">
+  <Link to="/products">
+    <motion.button
+      className={`
+        text-white px-6 py-3 rounded-full hover:opacity-90 transition-colors
+        ${currentColorScheme.buttons.primary}
+      `}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      استكشفي المنتجات
+    </motion.button>
+  </Link>
+  <Link to="/provider">
+    <motion.button
+      className={`
+        hover:bg-opacity-90 px-6 py-3 rounded-full transition-colors
+        ${currentColorScheme.buttons.secondary}
+        hover:text-white
+      `}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      انضمي كمبدعة
+    </motion.button>
+  </Link>
+</div>
         </motion.div>
         <motion.div 
           className="md:w-1/2 flex justify-center"

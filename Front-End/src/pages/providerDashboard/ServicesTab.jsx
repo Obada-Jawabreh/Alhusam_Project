@@ -71,7 +71,7 @@ const ServicesTab = () => {
       titleAr: service.titleAr,
       description: service.description,
       price: service.price,
-      price: service.stock,
+      stock: service.stock,
       mainImage: null, // Preserve existing image URL
       additionalImages: [], // Preserve existing additional images
       category: service.category,

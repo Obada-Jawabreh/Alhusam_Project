@@ -200,6 +200,12 @@ const ProductDetailPage = () => {
 
 const addToCart = async () => {
   try {
+
+    if (user?.role !== "user") {
+      alert("لا يمكن لمقدمي الخدمة إضافة منتجات إلى السلة.");
+      return;
+    }
+
       setIsAddingToCart(true);
 
       if (!product) {

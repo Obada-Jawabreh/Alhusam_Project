@@ -3,12 +3,13 @@ const Request = require("../models/Request");
 exports.createDriverRequest = async (req, res) => {
   try {
     const { name, email, phoneNumber, message } = req.body;
-    
+    const userId = req.user.id;
     const request = new Request({
       name,
       email,
       phoneNumber,
       message,
+      userId,
       resume: req.file ? `/uploads/${req.file.filename}` : undefined,
       status: 'pending'
     });
